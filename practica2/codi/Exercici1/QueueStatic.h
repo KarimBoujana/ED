@@ -3,15 +3,15 @@
 
 class QueueStatic {
     public:
-        QueueStatic(const int max_size);
-        virtual ~QueueStatic();
-        void enqueue(const int key);
-        void dequeue();
-        bool isFull();
-        bool isEmpty();
-        void print();
-        const int getFront();
-        void printFrontRear();
+        QueueStatic(const int max_size); //hecho
+        virtual ~QueueStatic(); //TODO:CONSTRUCTOR.
+        void enqueue(const int key); //hecho
+        void dequeue(); //hecho
+        bool isFull(); //hecho
+        bool isEmpty(); //hecho
+        void print(); //hecho
+        const int getFront(); //hecho
+        void printFrontRear(); //hecho
 
     private:
         int _max_elements;
