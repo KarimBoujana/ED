@@ -4,7 +4,7 @@
 
  #include <iostream>
  #include <vector>
- #include "QueueStatic.h"
+ #include "QueueStatic.cpp"
  using namespace std;
 
  //Declaración de métodos.
@@ -38,13 +38,66 @@ int choose_option() {
 
 }
 
+void casProva1() {
+
+    QueueStatic queue(3);
+    queue.enqueue(10);
+    queue.enqueue(20);
+    queue.printFrontRear();
+    queue.enqueue(30);
+
+    try {
+        queue.enqueue(40);
+    } catch (string e) {
+        cout << e << endl;
+    }
+    
+    queue.print();
+    queue.printFrontRear();
+    queue.dequeue();
+    queue.enqueue(50);
+    queue.print();
+    queue.printFrontRear();
+
+}
+
+void casProva2() {
+    
+    QueueStatic queue(3);
+    queue.enqueue(10);
+    queue.getFront();
+    queue.enqueue(20);
+    queue.enqueue(30);
+    queue.print();
+    queue.printFrontRear();
+    queue.dequeue();
+    queue.getFront();
+    queue.dequeue();
+    queue.printFrontRear();
+    queue.dequeue();
+
+    try {
+        queue.dequeue();
+    } catch (string e) {
+        cout << e << endl;
+    }
+    
+    queue.print();
+    queue.printFrontRear();
+
+}
+
 int main() {
+
+    casProva1();
+    cout << "-----------------------------\n";
+    casProva2();
+    cout << "-----------------------------\n";
 
     // Inicializamos las variables pertinentes.
     int option;
     const int MAX_ELEMENTS = 3;
     QueueStatic queue(MAX_ELEMENTS);
-    cout << "Estructura creada" << endl;
 
     // Haremos este do while mientras no elijan la opción 6.
     do {
@@ -60,7 +113,6 @@ int main() {
 
                 try {
                     queue.enqueue(key);
-                    cout << "Element " << key << " agregat" << endl;
                 } catch (string e) {
                     cout << e << endl;
                 }
@@ -69,15 +121,11 @@ int main() {
 
 // Si escogen 2, eliminamos uno.
             case 2:
-            {
-                int element = queue.getFront();
-                    try {
-                        queue.dequeue();
-                        cout << "Element " << element << " eliminat" << endl;
-                    } catch (string e) {
-                        cout << e << endl;
-                    }
-            }    
+                try {
+                    queue.dequeue();
+                } catch (string e) {
+                    cout << e << endl;
+                }
             break;
 
 // Si escogen 3, consultamos el primer elemento de la Cola.
@@ -104,6 +152,5 @@ int main() {
 
     } while (option != 6);
 
-    queue.~QueueStatic();
     return 0;
 }

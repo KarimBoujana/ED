@@ -15,6 +15,7 @@ QueueStatic::QueueStatic(const int max_size) {
     _num_elements = 0;
     _content = new int[max_size];
     _max_elements = max_size;
+    cout << "Estructura creada" << endl;
 }
 
 /**
@@ -22,7 +23,11 @@ QueueStatic::QueueStatic(const int max_size) {
  * Libera la memoria reservada para el array de elementos.
  */
 QueueStatic::~QueueStatic() {
-    delete[] _content;
+    if (_content) {
+        delete[] _content;
+        _content = nullptr; // Optional: Set to nullptr after deletion.
+    }
+    cout << "Estructura destruida" << endl; // Optional: For debugging.
 }
 
 /**
@@ -38,6 +43,8 @@ void QueueStatic::enqueue(const int key) {
         _num_elements++;
         _content[_first] = key;
         _first = (_first + 1) % _max_elements; // Avanza _first de forma circular.
+        
+        cout << "Element " << key << " agregat" << endl;
     }
 }
 
@@ -47,12 +54,17 @@ void QueueStatic::enqueue(const int key) {
  * @throws string Si la cola está vacía.
  */
 void QueueStatic::dequeue() {
+    
+    int element = this->getFront();
+
     if (isEmpty()) {
         throw string("EXCEPTION: L'estructura està buida");
     } else {
         _last = (_last + 1) % _max_elements; // Avanza _last de forma circular.
         _num_elements--;
     }
+    
+    cout << "Element " << element << " eliminat" << endl;
 }
 
 /**
