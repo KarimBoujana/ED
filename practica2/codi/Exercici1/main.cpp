@@ -42,7 +42,8 @@ int main() {
 
     // Inicializamos las variables pertinentes.
     int option;
-    QueueStatic queue(3);
+    const int MAX_ELEMENTS = 3;
+    QueueStatic queue(MAX_ELEMENTS);
     cout << "Estructura creada" << endl;
 
     // Haremos este do while mientras no elijan la opción 6.
@@ -55,29 +56,43 @@ int main() {
 //Si escogen 1, añadimos un elemento a la Cola.
             case 1:
                 int key;
-                cout << "¿Qué elemento quieres introducir?: ";
                 cin >> key;
-                queue.enqueue(key);
-                cout << "Element" << key << " agregat" << endl;
+
+                try {
+                    queue.enqueue(key);
+                    cout << "Element " << key << " agregat" << endl;
+                } catch (string e) {
+                    cout << e << endl;
+                }
+                
                 break;
 
 // Si escogen 2, eliminamos uno.
             case 2:
-                queue.dequeue();
-                cout << "Element " << queue.getFront() << " eliminat" << endl;
-                break;
+            {
+                int element = queue.getFront();
+                    try {
+                        queue.dequeue();
+                        cout << "Element " << element << " eliminat" << endl;
+                    } catch (string e) {
+                        cout << e << endl;
+                    }
+            }    
+            break;
 
 // Si escogen 3, consultamos el primer elemento de la Cola.
             case 3:
-
+                cout << queue.getFront() << endl;
                 break;
 
 // Si escogen 4, imprimimos por pantalla toda la Cola.
             case 4:
+                queue.print();
                 break;
 
 // Si escogen 5, imprimimos las posiciones del front y el rear.
             case 5:
+                queue.printFrontRear();
                 break;
             
 // Si escogen cualquier otro valor, señalamos que nos den un valor correcto.
@@ -89,5 +104,6 @@ int main() {
 
     } while (option != 6);
 
+    queue.~QueueStatic();
     return 0;
 }
