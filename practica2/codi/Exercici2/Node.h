@@ -18,6 +18,26 @@ class Node {
 }
 
 template <class Type>
-C
+Node<Type>::Node(Type element) {
+
+    this->element = element;
+    next = nullptr;
+
+} 
+
+template <class Type>
+Type Node<Type>::getElement() {
+    return element;
+}
+
+template <class Type>
+Node<Type>* Node<Type>::getNext() {
+    return next;
+}
+
+template <class Type>
+void Node<Type>::setNext(const Node<Type>* next) {
+    this->next = next;
+}
 
 #endif

@@ -25,4 +25,29 @@ class QueueLinked {
 
 }
 
+template <class Type>
+QueueLinked<Type>::QueueLinked() {
+
+    Node<Type>* _first = Node<Type>* _last = new Node<Type>();
+
+}
+
+template <class Type>
+void QueueLinked<Type>::enqueue(const Type key) {
+
+    Node<Type> nodo = new Node<Type>();
+    _last*.setNext(&nodo);
+    _last = &nodo;
+
+}
+
+template <class Type>
+void QueueLinked<Type>::dequeue() {
+
+    Node<Type> nodo = new Node<Type>();
+    _last*.setNext(&nodo);
+    _last = &nodo;
+
+}
+
 #endif
