@@ -4,7 +4,7 @@
 
  #include <iostream>
  #include <vector>
- #include "QueueStatic.cpp"
+ #include "QueueStatic.h"
  using namespace std;
 
  //Declaración de métodos.
