@@ -25,9 +25,9 @@ QueueStatic::QueueStatic(const int max_size) {
 QueueStatic::~QueueStatic() {
     if (_content) {
         delete[] _content;
-        _content = nullptr; // Optional: Set to nullptr after deletion.
+        _content = nullptr;
     }
-    cout << "Estructura destruida" << endl; // Optional: For debugging.
+    cout << "Estructura destruida" << endl; 
 }
 
 /**
