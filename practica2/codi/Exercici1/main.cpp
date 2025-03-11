@@ -9,6 +9,8 @@
 
  //Declaración de métodos.
  int choose_option();
+ void casProva1();
+ void casProva2();
 
  /**
 * Pregunta y retorna la opción elegida por el usuario.
