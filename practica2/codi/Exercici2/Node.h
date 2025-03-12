@@ -1,4 +1,4 @@
-#ifdef Node_h
+#ifndef Node_h
 #define Node_h
 
 using namespace std;
@@ -13,9 +13,9 @@ class Node {
         Node<Type>(Type element);
         Type getElement();
         Node<Type>* getNext();
-        void setNext(const Node<Type>*)
+        void setNext(const Node<Type>*);
 
-}
+};
 
 template <class Type>
 Node<Type>::Node(Type element) {
@@ -37,7 +37,7 @@ Node<Type>* Node<Type>::getNext() {
 
 template <class Type>
 void Node<Type>::setNext(const Node<Type>* next) {
-    this->next = next;
+    this->next = const_cast<Node<Type>*>(next);
 }
 
 #endif

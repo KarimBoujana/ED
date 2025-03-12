@@ -1,4 +1,4 @@
-#ifdef QueueLinked_h
+#ifndef QueueLinked_h
 #define QueueLinked_h
 
 #include<iostream>
@@ -23,47 +23,59 @@ class QueueLinked {
         Node<Type>* _first;
         Node<Type>* _last;
 
-}
+};
 
 template <class Type>
 QueueLinked<Type>::QueueLinked() {
 
     _first = nullptr;
     _last = nullptr;
+    cout << "Estructura creada" << endl;
 
 }
 
 template <class Type>
 QueueLinked<Type>::QueueLinked(const QueueLinked<Type>& q) {
 
-    if (q.isEmpty()) {
-        _first = nullptr;
-        _last = nullptr;
-    } else {
-        _first = _last = &q;
+    _first = _last = nullptr;
 
-        while (_last != nullptr) {
-            _last = _last->getNext();
+    if (!q.isEmpty()) {
 
+        Node<Type>* current = q._first;
+
+        while(current != nullptr) {
+
+            this->enqueue(current->getElement());
+            current = current->getNext(); 
+            
         }
+        
     }
+
+    
+    cout << "Estructura copiada" << endl;
 
 }
 
 template <class Type>
 QueueLinked<Type>::~QueueLinked() {
 
-    Node<Type>* aux = _first;
-    Node<Type>* aux2 = _first->getNext();
+    if (!this->isEmpty()) {
 
-    while (aux2 != nullptr) {
+        Node<Type>* aux = _first;
+        Node<Type>* aux2 = _first->getNext();
+
+        while (aux2 != nullptr) {
+            delete aux;
+            aux = aux2;
+            aux2 = aux2->getNext();
+        }
+
         delete aux;
-        aux = aux2;
-        aux2 = aux2->getNext();
+        aux = aux2 = _first = _last = nullptr;
+        cout << "Estructura destruida" << endl; 
+        
     }
-
-    delete aux;
-    aux = aux2 = _first = _last = nullptr;
 
 }
 
@@ -75,13 +87,13 @@ bool QueueLinked<Type>::isEmpty() {
 template <class Type>
 void QueueLinked<Type>::print() {
 
-    if (this->isEmpty) {
-        cout << "Cola vacía." << endl;
+    if (this->isEmpty()) {
+        cout << "[]" << endl;
     } else {
         Node<Type>* aux = _first;
         cout << "[" << aux->getElement();
 
-        while (aux != nullptr) {
+        while (aux->getNext() != nullptr) {
             aux = aux->getNext();
             cout << ", " << aux->getElement();
         }
@@ -96,14 +108,16 @@ void QueueLinked<Type>::enqueue(const Type key) {
 
     if (this->isEmpty()) {
         
-        Node<Type> node = new Node<Type>(key);
-        _first = _last = &node;
+        Node<Type>* node = new Node<Type>(key);
+        _first = _last = node;
+        cout << "Element " << key << " agregat" << endl;
 
     } else {
 
-        Node<Type> nodo = new Node<Type>(key);
-        _last->setNext(&nodo);
-        _last = &nodo;
+        Node<Type>* nodo = new Node<Type>(key);
+        _last->setNext(nodo);
+        _last = nodo;
+        cout << "Element " << key << " agregat" << endl;
 
     }
 
@@ -116,36 +130,47 @@ void QueueLinked<Type>::dequeue() {
 
     if (this->isEmpty()) {
 
-        throw string("La cola está vacía.")
+        throw string("EXCEPTION: L'estructura està buida");
 
     } else if (_first->getNext() == nullptr) {
+
 
         Node<Type>* aux = _first;
         _first = nullptr;
         _last = nullptr;
+
+        cout << "Element " << aux->getElement() << " eliminat" << endl;
         delete aux;
-        num_elements--;
+
 
     } else {
 
         Node<Type>* aux = _first->getNext();
+        cout << "Element " << _first->getElement() << " eliminat" << endl;
         delete _first;
         _first = aux;
         aux = nullptr;
-        num_elements--;
 
     }
 
 }
 
 template <class Type>
-Type QueueLinked<Type>::getFront() {
-    return _first->getElement(); 
+const Type QueueLinked<Type>::getFront() {
+    if (this->isEmpty()) {
+        throw string("La cola está vacía.");
+    } else {
+        return _first->getElement();
+    }
 }
 
 template <class Type>
 void QueueLinked<Type>::printFrontRear() {
-    cout << "Front: " << _first->getElement() << ", rear: " << _last->getElement() << "." << endl;
+    if (this->isEmpty()) {
+        throw string("La cola está vacía.");
+    } else {
+        cout << "Front: " << _first->getElement() << ", rear: " << _last->getElement() << "." << endl;
+    }
 }
 
 #endif
