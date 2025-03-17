@@ -87,14 +87,14 @@ template <class Type>
 void QueueLinked<Type>::print() {
 
     if (this->isEmpty()) {
-        cout << "[]" << endl;
+        cout << "Pelis: []" << endl;
     } else {
         Node<Type>* aux = _first;
-        cout << "[" << aux->getElement();
+        cout << "Pelis: [" << (aux->getElement()).toString();
 
         while (aux->getNext() != nullptr) {
             aux = aux->getNext();
-            cout << ", " << aux->getElement();
+            cout << ", " << (aux->getElement()).toString();
         }
         
         cout << "]" << endl;
@@ -120,8 +120,6 @@ void QueueLinked<Type>::enqueue(const Type key) {
 
     }
 
-    
-
 }
 
 template <class Type>
@@ -129,7 +127,7 @@ void QueueLinked<Type>::dequeue() {
 
     if (this->isEmpty()) {
 
-        throw string("EXCEPTION: L'estructura està buida");
+        throw string("EXCEPTION: No hi ha pelis.");
 
     } else if (_first->getNext() == nullptr) {
 
