@@ -39,7 +39,7 @@ QueueLinked<Type>::QueueLinked(const QueueLinked<Type>& q) {
 
     _first = _last = nullptr;
 
-    if (!q.isEmpty()) {
+    if (!(q._first == nullptr)) {
 
         Node<Type>* current = q._first;
 

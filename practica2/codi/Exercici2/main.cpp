@@ -60,6 +60,33 @@ void casProva1() {
     queue.enqueue(50);
     queue.print();
     queue.printFrontRear();
+
+    cout << "----------------------------------------\n";
+
+    QueueLinked<int> copied_queue(queue);
+
+    cout << "----------------------------------------\n";
+
+    copied_queue.enqueue(10);
+    copied_queue.enqueue(20);
+    copied_queue.printFrontRear();
+    copied_queue.enqueue(30);
+
+    try {
+        copied_queue.enqueue(40);
+    } catch (string e) {
+        cout << e << endl;
+    }
+
+    copied_queue.print();
+    copied_queue.printFrontRear();
+    copied_queue.dequeue();
+    copied_queue.enqueue(50);
+    copied_queue.print();
+    copied_queue.printFrontRear();
+
+
+
 }
 
 void casProva2() {
