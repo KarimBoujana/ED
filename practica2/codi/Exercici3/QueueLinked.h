@@ -113,9 +113,9 @@ void QueueLinked<Type>::enqueue(const Type key) {
 
     } else {
 
-        Node<Type>* nodo = new Node<Type>(key);
-        _last->setNext(nodo);
-        _last = nodo;
+        Node<Type>* node = new Node<Type>(key);
+        _last->setNext(node);
+        _last = node;
         cout << "Element " << key << " agregat" << endl;
 
     }

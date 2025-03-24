@@ -4,6 +4,7 @@
 
  #include <iostream>
  #include <vector>
+ #include <fstream>
  #include "Peli.h"
  #include "QueueLinked.h"
  using namespace std;
@@ -40,6 +41,7 @@ int choose_option() {
 
 }
 
+
 int main() {
 
     int option;
@@ -54,6 +56,45 @@ int main() {
 
 //Si escogen 1, leemos un fichero.
             case 1:
+            {
+                string path = "llista_pelis.txt"; // todo hacerlo dinamico.
+              /*cout << "Introduce el camino del fichero.\n";
+                cin >> cami; */
+
+                string content;
+                ifstream file(path);
+
+                if (file.is_open()) { 
+
+                    string peliId;
+                    string directorId;
+                    string titol;
+                    string durada;
+                    string valoracio;
+
+                    while (file.good()) {
+
+                        getline(file, peliId, ',');
+                        int peliId_int = stoi(peliId);
+                        getline(file, directorId, ',');
+                        int directorId_int = stoi(directorId);
+                        getline(file, titol, ',');
+                        getline(file, durada, ',');
+                        int durada_int = stoi(durada);
+                        getline(file, valoracio, ',');
+                        float valoracio_float = stof(valoracio);
+
+                        Peli peli(peliId_int, directorId_int, titol, durada_int, valoracio_float);
+                        pelis.enqueue(peli);
+
+                    }
+                    
+                    
+                                       
+                                       
+                }                
+
+            }
                 
                 break;
 
