@@ -73,16 +73,29 @@ int main() {
                     string valoracio;
 
                     while (file.good()) {
-
+                        cout << "----------------------------------\n";
                         getline(file, peliId, ',');
                         int peliId_int = stoi(peliId);
+
+                        cout << "SOY PELI ID" << peliId << endl;
+
                         getline(file, directorId, ',');
                         int directorId_int = stoi(directorId);
+
+                        cout << "SOY DIRECTOR ID" << directorId << endl;
+
                         getline(file, titol, ',');
                         getline(file, durada, ',');
                         int durada_int = stoi(durada);
+
+                        cout << "SOY DURADA: " << durada << endl;
+
                         getline(file, valoracio, ',');
                         float valoracio_float = stof(valoracio);
+
+                        cout << "SOY VALORACIO" << valoracio << endl;
+
+                        cout << "----------------------------------\n";
 
                         Peli peli(peliId_int, directorId_int, titol, durada_int, valoracio_float);
                         pelis.enqueue(peli);
