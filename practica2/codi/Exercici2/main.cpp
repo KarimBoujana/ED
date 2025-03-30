@@ -161,7 +161,12 @@ int main() {
 
 // Si escogen 3, consultamos el primer elemento de la Cola.
             case 3:
-                cout << queue.getFront() << endl;
+            
+                try {
+                    cout << queue.getFront() << endl;
+                } catch(string e) {
+                    cout << e << endl;
+                }
                 break;
 
 // Si escogen 4, imprimimos por pantalla toda la Cola.
@@ -171,7 +176,12 @@ int main() {
 
 // Si escogen 5, imprimimos las posiciones del front y el rear.
             case 5:
+            try {
                 queue.printFrontRear();
+            } catch(string e) {
+                cout << e << endl;
+            }
+                
                 break;
             
 // Si escogen cualquier otro valor, señalamos que nos den un valor correcto.

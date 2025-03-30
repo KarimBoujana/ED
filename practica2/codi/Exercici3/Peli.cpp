@@ -54,7 +54,7 @@ void Peli::print() {
 
 
 string Peli::toString() const {
-    return "Peli ID: " + to_string(this->peliId) + "\nDirector ID: " + to_string(this->directorId) + "\nTitol: " + this->titol + "\nDurada: " + to_string(this->durada) + "\nValoracio: " + to_string(this->valoracio);
+    return "Peli ID: " + to_string(this->peliId) + "\nDirector ID: " + to_string(this->directorId) + "\nTitol: " + this->titol + "\nDurada: " + to_string(this->durada) + "\nValoracio: " + to_string(this->valoracio) + "\n\n";
 }
 
 std::ostream& operator<<(std::ostream& os, const Peli& obj) {
