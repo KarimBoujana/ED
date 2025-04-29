@@ -1,4 +1,8 @@
+#ifndef NODETREE_H
+#define NODETREE_H
 #include <vector>
+#include <iostream>
+
 using namespace std;
 
 template <class Key, class Value>
@@ -12,14 +16,14 @@ class NODEtree {
 
         /* Modificadors */
         void setKey(const Key& key);
-        void setValue(const vector<Value>& vector);    
-        void setParent(const NODEtree* parent);
-        void setLeft(const NODEtree* left);
-        void setRight(const NODEtree* right);
+        void setValues(const vector<Value>& vector);    
+        void setParent(NODEtree* parent);
+        void setLeft(NODEtree* left);
+        void setRight(NODEtree* right);
 
         /* Consultors */
         const Key& getKey() const;
-        const vector<Value>& getValue() const;
+        const vector<Value>& getValues() const;
         const NODEtree* getParent() const;
         const NODEtree* getLeft() const;
         const NODEtree* getRight() const;
@@ -33,7 +37,7 @@ class NODEtree {
         void insertValue(const Value& v);
         int depth() const;
         int height() const;
-        bool operator==(const NODETree<Key,Value>& node) const;
+        bool operator==(const NODEtree<Key,Value>& node) const;
 
     private:
         Key key;
@@ -49,23 +53,23 @@ template <class Key, class Value>
 NODEtree<Key, Value>::NODEtree(const Key& key) {
 
     this->key = key;
-    parent = left = right = values = nullptr;
+    values = vector<Value>();
+    parent = left = right = nullptr;
 
 }
 
 template <class Key, class Value>
 NODEtree<Key, Value>::NODEtree(const NODEtree<Key,Value>& orig) {
 
-    NODEtree node;
-    node.setKey(orig.getKey());
-    node.setValue(orig.getValue());
-
+    this->key = orig.getKey();
+    this->values = orig.getValues();
+    parent = left = right = nullptr;
 
 }
 
 template <class Key, class Value>
 NODEtree<Key, Value>::~NODEtree() {
-    //Destructor. todo: destruir
+    //TODO: destruir
 }
 
 
@@ -78,28 +82,28 @@ void NODEtree<Key, Value>::setKey(const Key&) {
 }
 
 template <class Key, class Value>
-void NODEtree<Key, Value>::setValue(const vector<Value>& vector) {
+void NODEtree<Key, Value>::setValues(const vector<Value>& values) {
 
-    this->values = vector;
+    this->values = values;
 
 }
 
 template <class Key, class Value>
-void NODEtree<Key, Value>::setParent(const NODEtree* parent) {
+void NODEtree<Key, Value>::setParent(NODEtree* parent) {
 
     this->parent = parent;
 
 }
 
 template <class Key, class Value>
-void NODEtree<Key, Value>::setLeft(const NODEtree* left) {
+void NODEtree<Key, Value>::setLeft(NODEtree* left) {
 
     this->left = left;
 
 }
 
 template <class Key, class Value>
-void NODEtree<Key, Value>::setRight(const NODEtree* right) {
+void NODEtree<Key, Value>::setRight(NODEtree* right) {
 
     this->right = right;
 
@@ -111,12 +115,12 @@ void NODEtree<Key, Value>::setRight(const NODEtree* right) {
 template <class Key, class Value>
 const Key& NODEtree<Key, Value>::getKey() const {
 
-    return key&;
+    return key;
 
 }
 
 template <class Key, class Value>
-const vector<Value>& NODEtree<Key, Value>::getValue() const {
+const vector<Value>& NODEtree<Key, Value>::getValues() const {
 
     return values;
 
@@ -146,36 +150,59 @@ const NODEtree<Key, Value>* NODEtree<Key, Value>::getRight() const {
 
 // OPERACIONS
 template <class Key, class Value>
-void NODEtree<Key, Value>::setKey(const Key&) {
+bool NODEtree<Key, Value>::isRoot() const {
 
-    key = Key;
-
-}
-
-template <class Key, class Value>
-void NODEtree<Key, Value>::setKey(const Key&) {
-
-    key = Key;
+    return parent == nullptr;
 
 }
 
 template <class Key, class Value>
-void NODEtree<Key, Value>::setKey(const Key&) {
+bool NODEtree<Key, Value>::hasLeft() const {
 
-    key = Key;
-
-}
-
-template <class Key, class Value>
-void NODEtree<Key, Value>::setKey(const Key&) {
-
-    key = Key;
+    return left != nullptr;
 
 }
 
 template <class Key, class Value>
-void NODEtree<Key, Value>::setKey(const Key&) {
+bool NODEtree<Key, Value>::hasRight() const {
 
-    key = Key;
+    return right != nullptr;
 
 }
+
+template <class Key, class Value>
+bool NODEtree<Key, Value>::isExternal() const {
+
+    return !hasLeft() && !hasRight();
+
+}
+
+template <class Key, class Value>
+void NODEtree<Key, Value>::insertValue(const Value& v) {
+    values.push_back(v);
+}
+
+template <class Key, class Value>
+int NODEtree<Key, Value>::depth() const {
+
+    if (isRoot()) return 0;
+    return parent->depth() + 1;
+
+}
+
+template <class Key, class Value>
+int NODEtree<Key, Value>::height() const {
+
+    return depth()+1;
+
+}
+
+
+template <class Key, class Value>
+bool NODEtree<Key, Value>::operator==(const NODEtree<Key,Value>& node) const {
+
+    return key.equals(node.getKey()) && values.equals(node.getValues);
+
+}
+
+#endif
