@@ -1,7 +1,6 @@
 #ifndef NODETREE_H
 #define NODETREE_H
 #include <vector>
-#include <iostream>
 
 using namespace std;
 
