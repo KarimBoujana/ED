@@ -173,7 +173,7 @@ const vector<Value>& BSTtree<Key, Value>::valuesOf(const Key& k) const {
 }
 
 template <class Key, class Value>
-void BSTtree<Key, Value>::printPreorder(const NODEtree<Key,Value>* n = nullptr) const {
+void BSTtree<Key, Value>::printPreorder(const NODEtree<Key,Value>* n) const {
     
     if (empty()) cout << "Arbol vacío." << endl;
     else if (n != nullptr) {
@@ -189,7 +189,7 @@ void BSTtree<Key, Value>::printPreorder(const NODEtree<Key,Value>* n = nullptr) 
 }
 
 template <class Key, class Value>
-void BSTtree<Key, Value>::printInorder(const NODEtree<Key,Value>* n = nullptr) const {
+void BSTtree<Key, Value>::printInorder(const NODEtree<Key,Value>* n) const {
 
     if (empty()) cout << "Arbol vacío." << endl;
     else if (n != nullptr) {
@@ -209,7 +209,7 @@ void BSTtree<Key, Value>::printInorder(const NODEtree<Key,Value>* n = nullptr) c
 }
 
 template <class Key, class Value>
-void BSTtree<Key, Value>::printPostorder(const NODEtree<Key,Value>* n = nullptr) const {
+void BSTtree<Key, Value>::printPostorder(const NODEtree<Key,Value>* n) const {
 
     if (empty()) cout << "Arbol vacío." << endl;
     else if (n != nullptr) {
@@ -312,7 +312,7 @@ NODEtree<Key, Value>* BSTtree<Key, Value>::search(const Key &k) const {
 
         }
 
-        else throw runtime_error("No encontrado.");
+        throw runtime_error("No encontrado.");
 
     }
     
