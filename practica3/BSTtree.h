@@ -21,15 +21,14 @@ class BSTtree {
         bool empty() const;
         int size() const;
         int height() const;
-        NODEtree<Key, Value> *insert(const Key &k, const Value &value);
+        NODEtree<Key, Value>* insert(const Key &k, const Value &value);
         const vector<Value>& valuesOf(const Key& k) const;
         void printPreorder(const NODEtree<Key,Value>* n = nullptr) const;
         void printInorder(const NODEtree<Key,Value>* n = nullptr) const;
         void printPostorder(const NODEtree<Key,Value>* n = nullptr) const;
         void printSecondLargestKey() const;
         void mirrorTree();
-        list<NODEtree<Key, Value>*> getLeafNodes() const;
-        
+        list<NODEtree<Key, Value> *> getLeafNodes() const;
         
         protected:
         
@@ -40,6 +39,8 @@ class BSTtree {
         
         int _size;
         /* Mètodes auxiliars definiu aquí els que necessiteu */
+        void mirrorTreeR(NODEtree<Key, Value> *n);
+        void printSecondLargestKeyR(const NODEtree<Key, Value> *n) const;
         void copiaR(const NODEtree<Key, Value>* n);
         void eliminaR(NODEtree<Key, Value>* n);
         int heightR(const NODEtree<Key, Value>* n) const;
@@ -226,10 +227,26 @@ void BSTtree<Key, Value>::printPostorder(const NODEtree<Key,Value>* n = nullptr)
 template <class Key, class Value>
 void BSTtree<Key, Value>::printSecondLargestKey() const {
 
-    if (emtpy()) throw runtime_error("Arbol vacío.");
-    else if (size == 1) throw runtime_error("Solo hay un nodo.")
+    //TODO: COMPROBAR Y PREGUNTAR CON EL PROFE ESTA MAMAD
+    if (empty()) throw runtime_error("Arbol vacío.");
+    else if (size == 1) throw runtime_error("Solo hay un nodo.");
     else {
-        //TODO: como
+        printSecondLargestKeyR(root);
+    }
+
+}
+
+template <class Key, class Value>
+void BSTtree<Key, Value>::printSecondLargestKeyR(const NODEtree<Key,Value>* n) const {
+    
+    if (n == nullptr) throw runtime_error("Puntero nulo");
+    if (n->hasRight()) printSecondLargestKeyR(n->getRight()); 
+    else {
+        // Nuestro caso base es estar en el nodo más a la derecha del árbol, pues este tendrá la key más grande.
+        // Si tiene un nodo a la izquierda, será mayor que el padre del más derecho, pues está a la derecha del mismo, pero menor que le nodo.
+        // Si no lo tiene, el padre es el segundo mayor. Y como este método se llama tras comprobar que existan al menos dos nodos, entonces siempre habrá un padre.
+        if (n->hasLeft()) cout << n->getLeft()->getKey() << endl; 
+        else cout << n->getParent()->getKey() << endl;
     }
 
 }
@@ -237,6 +254,24 @@ void BSTtree<Key, Value>::printSecondLargestKey() const {
 template <class Key, class Value>
 void BSTtree<Key, Value>::mirrorTree() {
 
+    mirrorTreeR(root);
+
+}
+
+template <class Key, class Value>
+void BSTtree<Key, Value>::mirrorTreeR(NODEtree<Key,Value>* n) {
+
+    if(n != nullptr && !n->isExternal()) {
+        NODEtree<Key,Value>* temp = n->getLeft();
+        n->setLeft(n->getRight());
+        n->setRight(temp);
+        temp = nullptr;
+
+        mirrorTreeR(n->getLeft());
+        mirrorTreeR(n->getRight());
+
+    }
+    
 }
 
 template <class Key, class Value>
