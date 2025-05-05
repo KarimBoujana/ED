@@ -41,5 +41,10 @@ void mainExercici1(){
     tree1.mirrorTree();
     cout << "Inorder = [";
     tree1.printInorder();
-    cout << "]" << endl;
-    }
+    cout << "]" << endl; 
+}
+
+int main () {
+    mainExercici1();
+    return 0;
+}

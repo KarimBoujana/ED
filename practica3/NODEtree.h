@@ -24,8 +24,11 @@ class NODEtree {
         const Key& getKey() const;
         const vector<Value>& getValues() const;
         NODEtree* getParent() const;
-        NODEtree* getLeft() const;
-        NODEtree* getRight() const;
+        const NODEtree* getLeft() const;
+        const NODEtree* getRight() const;
+        NODEtree<Key, Value>* getLeft();
+        NODEtree<Key, Value>* getRight(); 
+
 
         // Declareu-hi aquí els consultors (getters) dels atributs que manquen
         /* Operacions */
@@ -135,14 +138,28 @@ NODEtree<Key, Value>* NODEtree<Key, Value>::getParent() const {
 }
 
 template <class Key, class Value>
-NODEtree<Key, Value>* NODEtree<Key, Value>::getLeft() const {
+const NODEtree<Key, Value>* NODEtree<Key, Value>::getLeft() const {
 
     return left;
 
 }
 
 template <class Key, class Value>
-NODEtree<Key, Value>* NODEtree<Key, Value>::getRight() const {
+const NODEtree<Key, Value>* NODEtree<Key, Value>::getRight() const {
+
+    return right;
+
+}
+
+template <class Key, class Value>
+NODEtree<Key, Value>* NODEtree<Key, Value>::getLeft() {
+
+    return left;
+
+}
+
+template <class Key, class Value>
+NODEtree<Key, Value>* NODEtree<Key, Value>::getRight() {
 
     return right;
 
@@ -174,7 +191,7 @@ bool NODEtree<Key, Value>::hasRight() const {
 template <class Key, class Value>
 bool NODEtree<Key, Value>::isExternal() const {
 
-    return !hasLeft() && !hasRight();
+    return left == nullptr && right == nullptr;
 
 }
 

@@ -29,6 +29,7 @@ class BSTtree {
         void printSecondLargestKey() const;
         void mirrorTree();
         list<NODEtree<Key, Value> *> getLeafNodes() const;
+
         
         protected:
         
@@ -68,7 +69,9 @@ template <class Key, class Value>
 void BSTtree<Key, Value>::copiaR(const NODEtree<Key, Value>* n) {
 
     if (n != nullptr) {
-        insert(n->getKey(), n->getValues());
+        for (const Value& valor : n->getValues()) {
+            insert(n->getKey(), valor); 
+        }
         copiaR(n->getLeft());
         copiaR(n->getRight());
     }
@@ -98,7 +101,7 @@ void BSTtree<Key, Value>::eliminaR(NODEtree<Key, Value>* n) {
 template <class Key, class Value>
 bool BSTtree<Key, Value>::empty() const {
 
-    return _size == 0;
+    return root == nullptr;
 
 }
 
@@ -132,6 +135,7 @@ NODEtree<Key,Value>* BSTtree<Key, Value>::insert(const Key& k, const Value& valu
         root = new NODEtree<Key, Value>(k);
         root->setValues(value);
         return root;
+        _size = 1;
 
     } else {
 
@@ -142,7 +146,7 @@ NODEtree<Key,Value>* BSTtree<Key, Value>::insert(const Key& k, const Value& valu
             parent = aux;
 
             if (aux->getKey() == k) {
-                aux->setValues(value);
+                aux->insertValue(value);
                 return aux;
             }
 
@@ -151,17 +155,17 @@ NODEtree<Key,Value>* BSTtree<Key, Value>::insert(const Key& k, const Value& valu
         }
 
 
-        _size++;
         NODEtree<Key, Value>* new_node = new NODEtree<Key, Value>(k);
-        new_node->setValues(value);
+        new_node->insertValue(value);
         new_node->setParent(parent);
-
+        
         if (parent->getKey() > k) {
             parent->setLeft(new_node);
         } else {
             parent->setRight(new_node);
         }
-
+        
+        _size++;
         return new_node;
         
 
@@ -177,14 +181,22 @@ const vector<Value>& BSTtree<Key, Value>::valuesOf(const Key& k) const {
 template <class Key, class Value>
 void BSTtree<Key, Value>::printPreorder(const NODEtree<Key,Value>* n) const {
     
-    if (empty()) cout << "Arbol vacío." << endl;
-    else if (n != nullptr) {
+    if (empty()) cout << "Arbol vacío.";
+    else if (n == nullptr) {
+
+        printPreorder(root);
+
+    } else {
 
         cout << n->getKey() << ", ";
         if (!n->isExternal()) {
             printPreorder(n->getLeft());
             printPreorder(n->getRight());
         }
+
+        cout <<  "Llave: " << n->getKey() << " (Valores: ";
+        for (const Value& v : n->getValues()) cout << v << " ";
+        cout << "), ";
 
     }
 
@@ -193,8 +205,12 @@ void BSTtree<Key, Value>::printPreorder(const NODEtree<Key,Value>* n) const {
 template <class Key, class Value>
 void BSTtree<Key, Value>::printInorder(const NODEtree<Key,Value>* n) const {
 
-    if (empty()) cout << "Arbol vacío." << endl;
-    else if (n != nullptr) {
+    if (empty()) cout << "Arbol vacío.";
+    else if (n == nullptr) {
+
+        printPreorder(root);
+
+    } else {
 
         if (!n->isExternal()) {
             printPreorder(n->getLeft());
@@ -205,6 +221,10 @@ void BSTtree<Key, Value>::printInorder(const NODEtree<Key,Value>* n) const {
         if (!n->isExternal()) {
             printPreorder(n->getRight());
         }
+
+        cout <<  "Llave: " << n->getKey() << " (Valores: ";
+        for (const Value& v : n->getValues()) cout << v << " ";
+        cout << "), ";
 
     }
 
@@ -213,14 +233,21 @@ void BSTtree<Key, Value>::printInorder(const NODEtree<Key,Value>* n) const {
 template <class Key, class Value>
 void BSTtree<Key, Value>::printPostorder(const NODEtree<Key,Value>* n) const {
 
-    if (empty()) cout << "Arbol vacío." << endl;
-    else if (n != nullptr) {
+    if (empty()) cout << "Arbol vacío.";
+    else if (n == nullptr) {
+
+        printPostorder(root);
+
+    } else {
 
         if (!n->isExternal()) {
             printPreorder(n->getLeft());
             printPreorder(n->getRight());
         }
-        cout << n->getKey() << ", ";
+
+        cout <<  "Llave: " << n->getKey() << " (Valores: ";
+        for (const Value& v : n->getValues()) cout << v << " ";
+        cout << "), ";
 
     }
 
@@ -278,7 +305,7 @@ void BSTtree<Key, Value>::mirrorTreeR(NODEtree<Key,Value>* n) {
 template <class Key, class Value>
 list<NODEtree<Key, Value>*> BSTtree<Key, Value>::getLeafNodes() const {
 
-    list<NODEtree<Key, Value>*> new_list = new list<NODEtree<Key, Value>*>();
+    list<NODEtree<Key, Value>*> new_list;
     getLeafNodesR(root, new_list);
     return new_list;
 
@@ -288,11 +315,9 @@ template <class Key, class Value>
 void BSTtree<Key, Value>::getLeafNodesR(const NODEtree<Key,Value>* n, list<NODEtree<Key, Value>*>& lista) const {
 
     if (n != nullptr) {
-
-        getLeafNodesInOrderR(n->getLeft(), lista);  
-        if (n->isExternal()) lista.push_back(n);  
-        getLeafNodesInOrderR(n->getRight(), lista);
-
+        getLeafNodesR(n->getLeft(), lista);
+        if (n->isExternal()) lista.push_back(const_cast<NODEtree<Key, Value>*>(n)); 
+        getLeafNodesR(n->getRight(), lista);
     }
 
 }
