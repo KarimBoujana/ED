@@ -15,7 +15,7 @@ class NODEtree {
 
         /* Modificadors */
         void setKey(const Key& key);
-        void setValues(const vector<Value>& vector);    
+        void setValues(const Value &values);
         void setParent(NODEtree* parent);
         void setLeft(NODEtree* left);
         void setRight(NODEtree* right);
@@ -81,9 +81,11 @@ void NODEtree<Key, Value>::setKey(const Key&) {
 }
 
 template <class Key, class Value>
-void NODEtree<Key, Value>::setValues(const vector<Value>& values) {
+void NODEtree<Key, Value>::setValues(const Value& values) {
 
-    this->values = values;
+    vector<Value> valores;
+    valores.push_back(values);
+    this->values = valores;
 
 }
 
@@ -204,4 +206,4 @@ bool NODEtree<Key, Value>::operator==(const NODEtree<Key,Value>& node) const {
 
 }
 
-#endif
+#endif // NODETREE_H

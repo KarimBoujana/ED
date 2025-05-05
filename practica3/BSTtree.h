@@ -150,6 +150,8 @@ NODEtree<Key,Value>* BSTtree<Key, Value>::insert(const Key& k, const Value& valu
             else aux = aux->getRight();
         }
 
+
+        _size++;
         NODEtree<Key, Value>* new_node = new NODEtree<Key, Value>(k);
         new_node->setValues(value);
         new_node->setParent(parent);
@@ -227,9 +229,8 @@ void BSTtree<Key, Value>::printPostorder(const NODEtree<Key,Value>* n) const {
 template <class Key, class Value>
 void BSTtree<Key, Value>::printSecondLargestKey() const {
 
-    //TODO: COMPROBAR Y PREGUNTAR CON EL PROFE ESTA MAMAD
     if (empty()) throw runtime_error("Arbol vacío.");
-    else if (size == 1) throw runtime_error("Solo hay un nodo.");
+    else if (_size == 1) throw runtime_error("Solo hay un nodo.");
     else {
         printSecondLargestKeyR(root);
     }
