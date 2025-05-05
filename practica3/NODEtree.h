@@ -23,9 +23,9 @@ class NODEtree {
         /* Consultors */
         const Key& getKey() const;
         const vector<Value>& getValues() const;
-        const NODEtree* getParent() const;
-        const NODEtree* getLeft() const;
-        const NODEtree* getRight() const;
+        NODEtree* getParent() const;
+        NODEtree* getLeft() const;
+        NODEtree* getRight() const;
 
         // Declareu-hi aquí els consultors (getters) dels atributs que manquen
         /* Operacions */
@@ -128,21 +128,21 @@ const vector<Value>& NODEtree<Key, Value>::getValues() const {
 }
 
 template <class Key, class Value>
-const NODEtree<Key, Value>* NODEtree<Key, Value>::getParent() const {
+NODEtree<Key, Value>* NODEtree<Key, Value>::getParent() const {
 
     return parent;
 
 }
 
 template <class Key, class Value>
-const NODEtree<Key, Value>* NODEtree<Key, Value>::getLeft() const {
+NODEtree<Key, Value>* NODEtree<Key, Value>::getLeft() const {
 
     return left;
 
 }
 
 template <class Key, class Value>
-const NODEtree<Key, Value>* NODEtree<Key, Value>::getRight() const {
+NODEtree<Key, Value>* NODEtree<Key, Value>::getRight() const {
 
     return right;
 
