@@ -23,7 +23,7 @@ void mainExercici1(){
     cout << "]" << endl;
     cout << "Postorder = [";
     tree1.printPostorder();
-    cout << "]" << endl;
+    cout << "]" << endl; 
     tree1.printSecondLargestKey();
     cout << "FULLES De l'arbre = ";
 
@@ -41,7 +41,7 @@ void mainExercici1(){
     tree1.mirrorTree();
     cout << "Inorder = [";
     tree1.printInorder();
-    cout << "]" << endl; 
+    cout << "]" << endl;
 }
 
 int main () {

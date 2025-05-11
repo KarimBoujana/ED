@@ -30,7 +30,6 @@ class BSTtree {
         void mirrorTree();
         list<NODEtree<Key, Value> *> getLeafNodes() const;
 
-        
         protected:
         
         NODEtree<Key,Value>* root;
@@ -52,6 +51,7 @@ class BSTtree {
 template <class Key, class Value>
 BSTtree<Key, Value>::BSTtree() {
     _size = 0;
+    root = nullptr;
 }
 
 template <class Key, class Value>
@@ -134,14 +134,15 @@ NODEtree<Key,Value>* BSTtree<Key, Value>::insert(const Key& k, const Value& valu
     if (empty()) {
         root = new NODEtree<Key, Value>(k);
         root->setValues(value);
-        return root;
         _size = 1;
+        return root;
 
     } else {
 
         NODEtree<Key, Value> * aux = root;
-        NODEtree<Key, Value> * parent = nullptr;
-        while (aux != nullptr && !aux->isExternal()) {
+        NODEtree<Key, Value> * parent = root;
+
+        while (aux != nullptr) {
 
             parent = aux;
 
@@ -180,77 +181,51 @@ const vector<Value>& BSTtree<Key, Value>::valuesOf(const Key& k) const {
 
 template <class Key, class Value>
 void BSTtree<Key, Value>::printPreorder(const NODEtree<Key,Value>* n) const {
+
+    if (empty()) {cout << "Arbol vacío."; return;}
+
+    if (n == nullptr) n = root;
     
-    if (empty()) cout << "Arbol vacío.";
-    else if (n == nullptr) {
+    cout << "Llave: " << n->getKey() << " (Valores: ";
+    for (const Value& v : n->getValues()) cout << v;
+    cout << "), ";
 
-        printPreorder(root);
-
-    } else {
-
-        cout << n->getKey() << ", ";
-        if (!n->isExternal()) {
-            printPreorder(n->getLeft());
-            printPreorder(n->getRight());
-        }
-
-        cout <<  "Llave: " << n->getKey() << " (Valores: ";
-        for (const Value& v : n->getValues()) cout << v << " ";
-        cout << "), ";
-
-    }
-
+    if (n->hasLeft()) printPreorder(n->getLeft());
+    if (n->hasRight()) printPreorder(n->getRight());
+    
 }
 
 template <class Key, class Value>
 void BSTtree<Key, Value>::printInorder(const NODEtree<Key,Value>* n) const {
 
-    if (empty()) cout << "Arbol vacío.";
-    else if (n == nullptr) {
+    if (empty()) {cout << "Arbol vacío."; return;}
 
-        printPreorder(root);
+    if (n == nullptr) n = root;
+    
+    if (n->hasLeft()) printInorder(n->getLeft());
 
-    } else {
+    cout << "Llave: " << n->getKey() << " (Valores: ";
+    for (const Value& v : n->getValues()) cout << v;
+    cout << "), ";
 
-        if (!n->isExternal()) {
-            printPreorder(n->getLeft());
-        }
-
-        cout << n->getKey() << ", ";
-
-        if (!n->isExternal()) {
-            printPreorder(n->getRight());
-        }
-
-        cout <<  "Llave: " << n->getKey() << " (Valores: ";
-        for (const Value& v : n->getValues()) cout << v << " ";
-        cout << "), ";
-
-    }
+    if (n->hasRight()) printInorder(n->getRight());
 
 }
 
 template <class Key, class Value>
 void BSTtree<Key, Value>::printPostorder(const NODEtree<Key,Value>* n) const {
 
-    if (empty()) cout << "Arbol vacío.";
-    else if (n == nullptr) {
+    if (empty()) {cout << "Arbol vacío."; return;}
 
-        printPostorder(root);
+    if (n == nullptr) n = root;
+    
+    if (n->hasLeft()) printPostorder(n->getLeft());
+    if (n->hasRight()) printPostorder(n->getRight());
 
-    } else {
-
-        if (!n->isExternal()) {
-            printPreorder(n->getLeft());
-            printPreorder(n->getRight());
-        }
-
-        cout <<  "Llave: " << n->getKey() << " (Valores: ";
-        for (const Value& v : n->getValues()) cout << v << " ";
-        cout << "), ";
-
-    }
-
+    cout << "Llave: " << n->getKey() << " (Valores: ";
+    for (const Value& v : n->getValues()) cout << v;
+    cout << "), ";
+    
 }
 
 template <class Key, class Value>
