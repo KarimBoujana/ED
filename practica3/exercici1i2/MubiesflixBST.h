@@ -55,6 +55,8 @@ void MubiesflixBST::showAllPelis() const {
 
 void MubiesflixBST::showPelisByDirector(int director_id) const {
 
+    cout << "Pel·lícula " << 1 <<":" << peli_id1 << titol1 << durada1 << valoracio1 << endl;
+
 }
 
 float MubiesflixBST::getAverageValoracioOfDirector(int director_id) const {
