@@ -181,7 +181,7 @@ int MubiesflixBST::findLargestDirectorId() const {
 }
 
 int MubiesflixBST::findSmallestNotTakenDirectorId() const {
-
+    // TODO: nuria te necesito
 }
 
 void MubiesflixBST::addPeli() {
