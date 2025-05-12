@@ -61,7 +61,6 @@ int main() {
               /*cout << "Introduce el camino del fichero.\n";
                 cin >> cami; */
 
-                string content;
                 ifstream file(path);
 
                 if (file.is_open()) { 
@@ -72,16 +71,19 @@ int main() {
                     string durada;
                     string valoracio;
 
+                    getline(file, peliId, '\n');
+                    peliId = "";
+
                     while (file.good()) {
                         cout << "----------------------------------\n";
-                        getline(file, peliId, ',');
+                        getline(file, peliId, '|');
                         int peliId_int = stoi(peliId);
 
-                        getline(file, directorId, ',');
+                        getline(file, directorId, '|');
                         int directorId_int = stoi(directorId);
 
-                        getline(file, titol, ',');
-                        getline(file, durada, ',');
+                        getline(file, titol, '|');
+                        getline(file, durada, '|');
                         int durada_int = stoi(durada);
 
                         getline(file, valoracio);
@@ -90,10 +92,7 @@ int main() {
                         Peli peli(peliId_int, directorId_int, titol, durada_int, valoracio_float);
                         pelis.enqueue(peli);
 
-                    }
-                    
-                    
-                                       
+                    }          
                                        
                 }                
 
