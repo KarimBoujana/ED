@@ -133,7 +133,7 @@ NODEtree<Key,Value>* BSTtree<Key, Value>::insert(const Key& k, const Value& valu
 
     if (empty()) {
         root = new NODEtree<Key, Value>(k);
-        root->setValues(value);
+        root->insertValue(value);
         _size = 1;
         return root;
 

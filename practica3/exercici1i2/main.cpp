@@ -24,7 +24,10 @@ void mainExercici1(){
     cout << "Postorder = [";
     tree1.printPostorder();
     cout << "]" << endl; 
+    cout << "--> Second largest key is... ";
     tree1.printSecondLargestKey();
+    cout << endl;
+    
     cout << "FULLES De l'arbre = ";
 
     list<NODEtree<int,int> *> fulles = tree1.getLeafNodes();
