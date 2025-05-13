@@ -35,7 +35,7 @@ int choose_option() {
     cin >> respuesta;
 
     //Si es válida, se admite. En caso contrario, se le asigna el valor -1.
-    if (respuesta > 5 || respuesta < 0) respuesta = -1;
+    if (respuesta > vector_options.size() || respuesta < 0) respuesta = -1;
     
     return respuesta;
 
