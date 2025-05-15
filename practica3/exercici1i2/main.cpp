@@ -1,5 +1,7 @@
 #include <vector>
 #include <iostream>
+#include <chrono>
+
 #include "BSTtree.h"
 #include "NODEtree.h"
 #include "MubiesflixBST.h"
@@ -53,16 +55,33 @@ void mainExercici2(){
     MubiesflixBST::AdditionStrategy strategy = MubiesflixBST::AFTER_LARGEST_ID;
     MubiesflixBST tree1(strategy);
 
-    int testKeys[] = {2, 0, 8, 45, 76, 5, 3, 40};
-    int testValues[] = {5, 5, 1, 88, 99, 12, 9, 11};
+    tree1.loadFromFile("pelis-cas_de_prova.csv"); 
+    tree1.getAverageValoracioOfDirector(132305);
 
+    tree1.addPeli();
+    cout << tree1.findSmallestNotTakenDirectorId() << endl;
+    tree1.addPeli();
+    cout << tree1.findLargestDirectorId() << endl;
+    tree1.addPeli();
 
-    tree1.addPeli();
-    cout << tree1.findSmallestNotTakenDirectorId() << endl;
-    tree1.addPeli();
-    cout << tree1.findSmallestNotTakenDirectorId() << endl;
-    tree1.addPeli();
-    cout << tree1.findSmallestNotTakenDirectorId() << endl;
+    tree1.showAllPelis();
+
+    MubiesflixBST tree2(strategy);
+    tree2.loadFromFile("pelis-petit.csv");
+
+    chrono::steady_clock::time_point begin = chrono::steady_clock::now();
+    
+    ifstream file("directors-gran.csv");
+    
+    while(file.good()) {
+        int id;
+        file >> id;
+        tree1.getAverageValoracioOfDirector(id);
+    }
+
+    chrono::steady_clock::time_point end = chrono::steady_clock::now();
+
+    cout << "Temps transcorregut: " << chrono::duration_cast<chrono::seconds>(end - begin).count() << " s." << endl;
 
     
 }
@@ -96,7 +115,7 @@ void menu() {
     MubiesflixBST::AdditionStrategy strategy = MubiesflixBST::AFTER_LARGEST_ID;
     MubiesflixBST menu_tree(strategy);
 
-    // Haremos este do while mientras no elijan la opción 5.
+    // Haremos este do while mientras no elijan la opción 9.
     do {
         option = choose_option(); // Vemos qué elige el usuario.
         // Si no escogen algo válido, se asigna el valor -1 y se le pide que introduzca un valor válido.
@@ -105,9 +124,9 @@ void menu() {
 //Si escogen 1, leemos un fichero.
             case 1:
             {
-                string path = "pelis-cas_de_prova.csv"; // TODO: hacerlo dinamico.
-              /*cout << "Introduce el camino del fichero.\n";
-                cin >> cami;*/
+                string path;
+                cout << "Introduce el camino del fichero.\n";
+                cin >> path;
 
                 menu_tree.loadFromFile(path);       
 
@@ -115,27 +134,64 @@ void menu() {
                 
                 break;
 
-// Si escogen 2, eliminamos una peli.
+//Si escogen 2, mostramos la peli de un director.
             case 2:
+            {
+                int id;
+                cout << "Introduce el ID del director.\n";
+                cin >> id;
+                menu_tree.showPelisByDirector(id);
 
-                
-            
                 break;
+            }
 
-// Si escogen 3, introduciremos n películas hasta que nos digan basta.
+// Si escogen 3, mostramos la valoracion media de un director.
             case 3:
             {
-                
+
+                int id;
+                cout << "Introduce el ID del director.\n";
+                cin >> id;
+                cout << menu_tree.getAverageValoracioOfDirector(id) << endl;
+
             }
                 break;
 
-// Si escogen 4, imprimimos por pantalla toda la Cola.
+// Si escogen 4, imprimimos por pantalla la base de datos de k en k elementos.
             case 4:
+                menu_tree.showAllPelis();
                 break;
+
+// Si escogen 5, imprimimos por pantalla el identificador más grande.
+            case 5:
+                cout << "Identificador más grande: " << menu_tree.findLargestDirectorId() << endl;
+                break;
+
+// Si escogen 6, imprimimos por pantalla el identificador más pequeño no asignado.
+            case 6:
+                cout << "Identificador más pequeño no asignado: " << menu_tree.findSmallestNotTakenDirectorId() << endl;
+                break;
+
+// Si escogen 7, buscaremos añadir una peli a un director.
+            case 7:
+                menu_tree.addPeli();
+                break;
+
+// Si escogen 8, editaremos la estrategia de inserción.
+            case 8:
+            {
+                int strategy_selected = -1;
+                cout << "¿Desea introducir después del identificador más grande (0) o el identificador más pequeño (1)?: " << endl;
+                while (strategy_selected < 0 || strategy_selected > 1) cin >> strategy_selected;
+                
+                if (strategy_selected == 0) menu_tree.setStrategy(MubiesflixBST::AFTER_LARGEST_ID);
+                else menu_tree.setStrategy(MubiesflixBST::SMALLEST_NOTTAKEN_ID);
+                break;
+            }
             
 // Si escogen cualquier otro valor, señalamos que nos den un valor correcto.
             case -1:
-                cout << "Introdueix un valor vàlid." << endl;
+                cout << "Introduce un valor válido (entre 1 y 9)." << endl;
                 break;
 
         }
@@ -144,8 +200,8 @@ void menu() {
 }
 
 int main () {
-    // mainExercici1();
+    mainExercici1();
     mainExercici2();
-    // menu();
+    menu();
     return 0;
 }

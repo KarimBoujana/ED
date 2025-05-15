@@ -20,12 +20,13 @@ class MubiesflixBST : protected BSTtree<int, Peli> {
         int findLargestDirectorId() const;
         int findSmallestNotTakenDirectorId() const;
         void addPeli();
+        void setStrategy(AdditionStrategy addition_strategy); // he tenido que crearla para alterar la estrategia según la opción 8.
 
     private:
         AdditionStrategy addition_strategy;
         /* Metodes auxiliars, definiu-los aquí sota */
         const int k = 2;
-        void showAllPelisR(NODEtree<int, Peli>* n, vector<int> director_ids) const;
+        void showAllPelisR(NODEtree<int, Peli>* n, vector<int>& director_ids) const;
         void findSmallestNotTakenDirectorIdR(NODEtree<int, Peli>* n, vector<int>& ids) const;
 
 };
@@ -61,7 +62,6 @@ void MubiesflixBST::loadFromFile(string file_path) {
                     getline(file, peliId); // De esta forma saltamos la primera línea.
 
                     while (file.good()) {
-                        cout << "----------------------------------\n";
                         getline(file, peliId, '|');
                         int peliId_int = stoi(peliId);
 
@@ -77,16 +77,7 @@ void MubiesflixBST::loadFromFile(string file_path) {
 
                         Peli peli(peliId_int, directorId_int, titol, durada_int, valoracio_float);
 
-                        switch(addition_strategy) {
-                            case AFTER_LARGEST_ID:
-                                insert(findLargestDirectorId()+2, peli);
-                                break;
-                    
-                            case SMALLEST_NOTTAKEN_ID:
-                                insert(findSmallestNotTakenDirectorId(), peli);
-                                break;
-
-                    }          
+                        insert(directorId_int, peli);
                                        
                 }
                 
@@ -103,19 +94,20 @@ void MubiesflixBST::showAllPelis() const {
         int directors_to_show = k;
         bool stop = false;
         char answer = 'y';
-
+        
         vector<int> director_ids;
         showAllPelisR(root, director_ids);
-    
+        
         for (int i = 0 ; !stop && i < director_ids.size() && i < directors_to_show ; i++) {
-    
-            cout << "Director: " << director_ids.at(i) << endl;
+            
+
+            cout << endl << "Director: " << director_ids.at(i) << endl;
             cout << "===" << endl;
             showPelisByDirector(director_ids.at(i));            
 
-            if (i == directors_to_show -1) {
+            if (i == directors_to_show -1 && i != director_ids.size()-1) {
 
-                cout << "Vols veure les següents " << k << "directors? ";
+                cout << "Vols veure les següents " << k << " directors? ";
                 cin >> answer;
                 if (answer == 'n') stop = true;
                 else directors_to_show += k;                
@@ -128,12 +120,12 @@ void MubiesflixBST::showAllPelis() const {
     
 }
 
-void MubiesflixBST::showAllPelisR(NODEtree<int, Peli>* n, vector<int> directores) const {
+void MubiesflixBST::showAllPelisR(NODEtree<int, Peli>* n, vector<int>& directores) const {
     
     if (empty()) {cout << "Base de datos vacía."; return;}
-    if (n->hasLeft()) printInorder(n->getLeft());
+    if (n->hasLeft()) showAllPelisR(n->getLeft(), directores);
     directores.push_back(n->getKey());
-    if (n->hasRight()) printInorder(n->getRight());
+    if (n->hasRight()) showAllPelisR(n->getRight(), directores);
 
 }
 
@@ -146,9 +138,10 @@ void MubiesflixBST::showPelisByDirector(int director_id) const {
     // Search lanzará runtime_error si no se encuentra al director buscado.
     for (Peli peli : search(director_id)->getValues()) {
 
-        cout << "Pel·lícula " << counter <<":" << peli.getPeliId() << peli.getTitol() << peli.getDurada() << peli.getValoracio() << endl;
+        cout << "Pel·lícula " << counter <<": " << peli.getPeliId() << " " << peli.getTitol() << " " << peli.getDurada() << " " << peli.getValoracio() << " " << endl;
         counter++;
     }
+    cout << "\n";
 
 }
 
@@ -159,12 +152,19 @@ float MubiesflixBST::getAverageValoracioOfDirector(int director_id) const {
     int counter = 0;
     float suma = 0;
 
-    // Search lanzará runtime_error si no se encuentra al director buscado.
-    for (Peli peli : search(director_id)->getValues()) {
+    try {
+        
+        // Search lanzará runtime_error si no se encuentra al director buscado.
+        for (Peli peli : search(director_id)->getValues()) {
+    
+            counter++;
+            suma += peli.getValoracio();
+        }
 
-        counter++;
-        suma += peli.getValoracio();
+    } catch(runtime_error e) {
+        cout << e.what() << endl;
     }
+
 
     if (counter == 0) return 0;
     else return suma/counter;
@@ -173,6 +173,7 @@ float MubiesflixBST::getAverageValoracioOfDirector(int director_id) const {
 
 int MubiesflixBST::findLargestDirectorId() const {
 
+    if (empty()) return 100;
     NODEtree<int, Peli> * aux = root;
     while (aux->hasRight()) aux = aux->getRight();
 
@@ -182,23 +183,27 @@ int MubiesflixBST::findLargestDirectorId() const {
 
 int MubiesflixBST::findSmallestNotTakenDirectorId() const {
     
-    if (empty()) return 0;
+    if (empty()) return 1;
 
     vector<int> ids;
     findSmallestNotTakenDirectorIdR(root, ids);
 
     if (ids.size() > 1) {
 
+        // Si el primero no es 1, devolvemos 1.
+        if (ids.at(0) != 1) return 1;
+
+        // Si la diferencia entre alguno es mayor que uno, devolvemos el más pequeño más 1.
         for (int i = 1; i < ids.size(); i++) {
 
-            if (ids.at(i) - ids.at(i-1) > 1) return i-1;
+            if (ids.at(i) - ids.at(i-1) > 1) return ids.at(i-1)+1;
             
         }
         // Si no encontramos ningun valor con alguna diferencia mayor que 1, el más pequeño es el más grande más uno.
         return ids.back()+1;
 
     }
-    else return ids.at(0) > 0 ? 0 : ids.at(0) + 1;
+    else return ids.at(0) > 1 ? 1 : 2;
 
 
 }
@@ -223,13 +228,6 @@ void MubiesflixBST::addPeli() {
     if (option == 0) {
         cout << "Introduce el ID: ";
         cin >> director_id;
-    } else {
-        cout << "¿Desea introducir después del identificador más grande (0) o el identificador más pequeño (1)?: " << endl;
-        while (option < 0 || option > 1) {
-            cin >> option;
-        }
-        if (option == 0) addition_strategy = AFTER_LARGEST_ID;
-        else addition_strategy = SMALLEST_NOTTAKEN_ID;
     }
 
     int peliId;
@@ -250,6 +248,7 @@ void MubiesflixBST::addPeli() {
     Peli peli(peliId, director_id, titol, durada, valoracio);
 
     if (director_id >= 0) insert(director_id, peli);
+
     else switch(addition_strategy) {
         case AFTER_LARGEST_ID:
             insert(findLargestDirectorId()+2, peli);
@@ -263,4 +262,8 @@ void MubiesflixBST::addPeli() {
 
 
 
+}
+
+void MubiesflixBST::setStrategy(AdditionStrategy addition_strategy) {
+    this->addition_strategy = addition_strategy;
 }
