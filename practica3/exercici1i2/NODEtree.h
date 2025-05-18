@@ -71,7 +71,6 @@ NODEtree<Key, Value>::NODEtree(const NODEtree<Key,Value>& orig) {
 
 template <class Key, class Value>
 NODEtree<Key, Value>::~NODEtree() {
-    //TODO: destruir
 }
 
 
