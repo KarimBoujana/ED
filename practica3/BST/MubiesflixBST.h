@@ -173,7 +173,7 @@ float MubiesflixBST::getAverageValoracioOfDirector(int director_id) const {
 
 int MubiesflixBST::findLargestDirectorId() const {
 
-    if (empty()) return 100;
+    if (empty()) return 0;
     NODEtree<int, Peli> * aux = root;
     while (aux->hasRight()) aux = aux->getRight();
 
@@ -251,7 +251,7 @@ void MubiesflixBST::addPeli() {
 
     else switch(addition_strategy) {
         case AFTER_LARGEST_ID:
-            insert(findLargestDirectorId()+2, peli);
+            insert(findLargestDirectorId()+1, peli);
             break;
 
         case SMALLEST_NOTTAKEN_ID:
