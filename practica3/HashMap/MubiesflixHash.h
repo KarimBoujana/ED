@@ -35,7 +35,6 @@ MubiesflixHash::MubiesflixHash(string file_path) {
 
 MubiesflixHash::~MubiesflixHash() {};
 
-
 int MubiesflixHash::totalCelles() {
     return cells();
 }
@@ -44,7 +43,51 @@ int MubiesflixHash::totalCol() {
 
     int total = 0;
     for (int i = 0; i < size(); i++) {
-        if ()
+
+        //Para cada puntero del array distinto del nulo, contamos la profundidad.
+        if (getPosition(i) != nullptr) {
+
+            LinkedHashEntry<int, Peli>* aux = getPosition(i);
+            int entries_depth = 0;
+        
+            while (aux->getNext() != nullptr) {
+                entries_depth++;
+                aux = aux->getNext();
+            }
+
+            total += entries_depth;
+        }
+
+    }
+
+}
+
+int MubiesflixHash::maxCol() {
+    return collisions();
+}
+
+int MubiesflixHash::factorCarrega() {
+    return (getMida()/size())*100
+}
+
+void MubiesflixHash::addPeli(int director_id, Peli peli) {
+    put(director_id, peli);
+}
+
+vector<Peli> MubiesflixHash::getPeliculasDirector(int director_id) {
+
+    LinkedHashEntry<int, Peli>* aux = getPosition(director_id);
+    vector<Peli> pelis;
+
+    while (aux != nullptr) {
+        if (aux->getKey() == director_id) {
+            aux->getValue()
+
+            //TODO: fíjate en cómo se implement el put. Si todos los elementos con el mismo id acaban en el mismo linkedhashentry entonces se reduce a devolver el vector de pelis.
+            // en caso contrario, 
+            // no hay caso contrario. Solucionar.
+        }
+        aux = aux->getNext();
     }
 
 }

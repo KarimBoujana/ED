@@ -21,6 +21,7 @@ class HashMap {
         int size() const;
         int cells() const;
         int collisions() const;
+        int getMida() const;
         LinkedHashEntry <Key,Value>* getPosition(const Key& element);
         LinkedHashEntry<Key,Value>* getCell(int index) const;
 
@@ -132,6 +133,11 @@ int HashMap<Key, Value>::collisions() const {
 }
 
 template <class Key, class Value>
+int HashMap<Key, Value>::getMida() const {
+    return mida;
+}
+
+template <class Key, class Value>
 int HashMap<Key, Value>::getHashCode(int key) const {
     return key % MAX_TABLE;
 }
@@ -140,7 +146,7 @@ template <class Key, class Value>
 LinkedHashEntry <Key,Value>* HashMap<Key, Value>::getPosition(const Key& element) {
 
     int position = getHashCode(element);
-    if (arrayElems[position] == NULL) throw runtime_error("No encontrado.");
+    if (arrayElems[position] == NULL) return nullptr;
     
     LinkedHashEntry<Key, Value>* aux = arrayElems[position];
 
@@ -150,7 +156,7 @@ LinkedHashEntry <Key,Value>* HashMap<Key, Value>::getPosition(const Key& element
         aux = aux->getNext();
     }
 
-    throw runtime_error("Para esta posición no hay elementos con esta llave.");
+    return nullptr;
 
 }
 
