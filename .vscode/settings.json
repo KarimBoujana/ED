@@ -7,6 +7,7 @@
         "limits": "cpp",
         "iosfwd": "cpp",
         "ostream": "cpp",
-        "stdexcept": "cpp"
+        "stdexcept": "cpp",
+        "chrono": "cpp"
     }
 }

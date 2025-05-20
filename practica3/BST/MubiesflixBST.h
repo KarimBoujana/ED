@@ -21,6 +21,7 @@ class MubiesflixBST : protected BSTtree<int, Peli> {
         int findSmallestNotTakenDirectorId() const;
         void addPeli();
         void setStrategy(AdditionStrategy addition_strategy); // he tenido que crearla para alterar la estrategia según la opción 8.
+        int searchDirectorsFromFile(string file_path) const;
 
     private:
         AdditionStrategy addition_strategy;
@@ -266,4 +267,25 @@ void MubiesflixBST::addPeli() {
 
 void MubiesflixBST::setStrategy(AdditionStrategy addition_strategy) {
     this->addition_strategy = addition_strategy;
+}
+
+int MubiesflixBST::searchDirectorsFromFile(string file_path) const {
+
+    fstream file(file_path);
+    int count = 0;
+
+    while(file.good()) {
+
+        try {
+            int id;
+            file >> id;
+            if (search(id)) count++;
+        } catch(runtime_error e) {
+            cout << e.what() << endl;
+        }
+
+    }
+
+    return count;
+
 }

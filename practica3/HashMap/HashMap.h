@@ -11,7 +11,7 @@ class HashMap {
 
     public:
 
-        const static int MAX_TABLE = 7; // Definir a ?? el valor que necessiteu
+        const static int MAX_TABLE = 32957; // Uso los primos : 21997, 11003, 16477, 32957
         HashMap();
         virtual ~HashMap();
         int getHashCode (int key) const;
@@ -21,9 +21,9 @@ class HashMap {
         int size() const;
         int cells() const;
         int collisions() const;
-        int getMida() const;
         LinkedHashEntry <Key,Value>* getPosition(const Key& element);
         LinkedHashEntry<Key,Value>* getCell(int index) const;
+        
 
     private:
 
@@ -61,20 +61,34 @@ void HashMap<Key, Value>::put(const Key &key, const Value &value) {
         colisioMax = max(0, colisioMax);
     }
     
-    // Si hay colision, hacemos que el último de la lista apunte a nuestro nuevo elemento.
+    // Si hay colision, hacemos que el último de la lista apunte a nuestro nuevo elemento si las llaves son distintas.
     else {
 
         LinkedHashEntry<Key, Value>* aux = arrayElems[position];
+        LinkedHashEntry<Key, Value>* prev = aux;
         int entries_depth = 0;
+        bool found = false;
         
-        while (aux->getNext() != nullptr) {
+        while (aux != nullptr && !found) {
+            
+            prev = aux;
+
+            if (aux->getKey() == key) {
+                aux->setValue(value);
+                found = true;
+            }
+            
             entries_depth++;
             aux = aux->getNext();
+            
         }
         
-        aux->setNext(new_element);
+        if (!found) {
+            colisioMax = max(entries_depth, colisioMax);
+            prev->setNext(new_element);
+        }
+
         
-        colisioMax = max(entries_depth, colisioMax);
         
     }
     
@@ -112,14 +126,14 @@ const bool HashMap<Key, Value>::get(const Key &key) const {
             aux->toString();
             aux = aux->getNext();
         } 
-        
+        return true;
     }
-    return true;
+    throw runtime_error("No trobat.");
 }
 
 template <class Key, class Value>
 int HashMap<Key, Value>::size() const {
-    return MAX_TABLE;
+    return mida;
 }
 
 template <class Key, class Value>
@@ -133,30 +147,25 @@ int HashMap<Key, Value>::collisions() const {
 }
 
 template <class Key, class Value>
-int HashMap<Key, Value>::getMida() const {
-    return mida;
-}
-
-template <class Key, class Value>
 int HashMap<Key, Value>::getHashCode(int key) const {
-    return key % MAX_TABLE;
+    return (key % MAX_TABLE + MAX_TABLE) % MAX_TABLE;
 }
 
 template <class Key, class Value>
 LinkedHashEntry <Key,Value>* HashMap<Key, Value>::getPosition(const Key& element) {
 
     int position = getHashCode(element);
-    if (arrayElems[position] == NULL) return nullptr;
+    if (arrayElems[position] == nullptr) return nullptr;
+
     
     LinkedHashEntry<Key, Value>* aux = arrayElems[position];
 
     while (aux != nullptr) {
-        aux->toString();
         if (aux->getKey() == element) return aux;
         aux = aux->getNext();
     }
 
-    return nullptr;
+    throw runtime_error("Id no encontrada en el HashMap.");
 
 }
 

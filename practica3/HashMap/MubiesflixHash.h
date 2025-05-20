@@ -20,6 +20,7 @@ class MubiesflixHash: public HashMap<int,Peli> {
         int factorCarrega(); //percentatge d’espai ocupat al hash
         void addPeli(int director_id, Peli peli);
         vector<Peli> getPeliculasDirector(int director_id);
+        int searchDirectorsFromFile(string file_path) const;
 
     private:
         void loadFromFile(string file_path);
@@ -33,33 +34,12 @@ MubiesflixHash::MubiesflixHash(string file_path) {
 
 }
 
-MubiesflixHash::~MubiesflixHash() {};
-
 int MubiesflixHash::totalCelles() {
     return cells();
 }
 
 int MubiesflixHash::totalCol() {
-
-    int total = 0;
-    for (int i = 0; i < size(); i++) {
-
-        //Para cada puntero del array distinto del nulo, contamos la profundidad.
-        if (getPosition(i) != nullptr) {
-
-            LinkedHashEntry<int, Peli>* aux = getPosition(i);
-            int entries_depth = 0;
-        
-            while (aux->getNext() != nullptr) {
-                entries_depth++;
-                aux = aux->getNext();
-            }
-
-            total += entries_depth;
-        }
-
-    }
-
+    return size() - cells();
 }
 
 int MubiesflixHash::maxCol() {
@@ -67,7 +47,7 @@ int MubiesflixHash::maxCol() {
 }
 
 int MubiesflixHash::factorCarrega() {
-    return (getMida()/size())*100
+    return (size()/MAX_TABLE)*100;
 }
 
 void MubiesflixHash::addPeli(int director_id, Peli peli) {
@@ -77,18 +57,35 @@ void MubiesflixHash::addPeli(int director_id, Peli peli) {
 vector<Peli> MubiesflixHash::getPeliculasDirector(int director_id) {
 
     LinkedHashEntry<int, Peli>* aux = getPosition(director_id);
-    vector<Peli> pelis;
 
     while (aux != nullptr) {
-        if (aux->getKey() == director_id) {
-            aux->getValue()
 
-            //TODO: fíjate en cómo se implement el put. Si todos los elementos con el mismo id acaban en el mismo linkedhashentry entonces se reduce a devolver el vector de pelis.
-            // en caso contrario, 
-            // no hay caso contrario. Solucionar.
-        }
+        if (aux->getKey() == director_id) return aux->getValue();
         aux = aux->getNext();
+
     }
+
+    throw runtime_error("Director no trobado.");
+
+}
+
+int MubiesflixHash::searchDirectorsFromFile(string file_path) const {
+    
+    fstream file(file_path);
+    int count = 0;
+
+    while(file.good()) {
+
+        try {
+            int id;
+            file >> id;
+            if (get(id)) count++;
+        } catch(runtime_error e) {
+            cout << e.what() << endl;
+        }
+    }
+
+    return count;
 
 }
 
@@ -120,7 +117,7 @@ void MubiesflixHash::loadFromFile(string file_path) {
             getline(file, valoracio);
             float valoracio_float = stof(valoracio);
 
-            _insereixPelicula(peliId_int, directorId_int, titol, durada_int, valoracio_float);
+            _insereixPelicula(directorId_int, peliId_int, titol, durada_int, valoracio_float);
                             
         }
     
@@ -130,7 +127,7 @@ void MubiesflixHash::loadFromFile(string file_path) {
 
 void MubiesflixHash::_insereixPelicula(int director_id, int peli_id, string titol, int durada, float valoracio) {
 
-    Peli peli(director_id, peli_id, titol, durada, valoracio);
+    Peli peli(peli_id, director_id, titol, durada, valoracio);
     put(director_id, peli);
 
 }

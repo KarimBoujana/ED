@@ -53,37 +53,44 @@ void mainExercici1(){
 void mainExercici2(){
 
     MubiesflixBST::AdditionStrategy strategy = MubiesflixBST::AFTER_LARGEST_ID;
-    MubiesflixBST tree1(strategy);
-
-    tree1.loadFromFile("pelis-cas_de_prova.csv"); 
-    tree1.getAverageValoracioOfDirector(132305);
-
-    tree1.addPeli();
-    cout << tree1.findSmallestNotTakenDirectorId() << endl;
-    tree1.addPeli();
-    cout << tree1.findLargestDirectorId() << endl;
-    tree1.addPeli();
-
-    tree1.showAllPelis();
-
-    MubiesflixBST tree2(strategy);
-    tree2.loadFromFile("pelis-petit.csv");
-
-    chrono::steady_clock::time_point begin = chrono::steady_clock::now();
     
-    ifstream file("directors-gran.csv");
+    chrono::steady_clock::time_point begin, end; // precisió de milisegons
+    string path = "pelis-petit.csv";
+    cout << "Carregant MubiesBST..." << endl;
     
-    while(file.good()) {
-        int id;
-        file >> id;
-        tree1.getAverageValoracioOfDirector(id);
-    }
-
-    chrono::steady_clock::time_point end = chrono::steady_clock::now();
-
-    cout << "Temps transcorregut: " << chrono::duration_cast<chrono::seconds>(end - begin).count() << " s." << endl;
-
+    begin = chrono::steady_clock::now();
+    MubiesflixBST mainMubiesflix(strategy, path);
+    end = chrono::steady_clock::now();
     
+    auto t_creation=chrono::duration_cast<chrono::milliseconds>(end-begin).count();
+    cout << "Temps de creació: " << t_creation << " ms" << endl;
+    
+    
+}
+
+void test_exercici5(string test_file) {
+    
+    MubiesflixBST::AdditionStrategy strategy = MubiesflixBST::AFTER_LARGEST_ID;
+    chrono::steady_clock::time_point begin, end; // precisió de milisegons
+    cout << "Carregant MubiesflixBST..." << endl;
+    
+    begin = chrono::steady_clock::now();
+    MubiesflixBST mainMubiesflix(strategy, test_file);
+    end = chrono::steady_clock::now();
+
+    auto t_creation=chrono::duration_cast<chrono::milliseconds>(end-begin).count();
+    
+    string search_file = "directors-gran.csv";
+    cout << "Cercant directors..." << endl;
+    
+    begin = chrono::steady_clock::now();
+    mainMubiesflix.searchDirectorsFromFile(search_file);
+    end = chrono::steady_clock::now();
+    auto t_search=chrono::duration_cast<chrono::milliseconds>(end-begin).count();
+    
+    cout << "Temps de creació: " << t_creation << " ms" << endl;
+    cout << "Temps de cerca: " << t_search << " ms" << endl;
+
 }
 
 int choose_option() {
@@ -202,6 +209,10 @@ void menu() {
 int main () {
     mainExercici1();
     mainExercici2();
+
+    test_exercici5("pelis-petit.csv");
+    test_exercici5("pelis-gran.csv");
+
     menu();
     return 0;
 }
