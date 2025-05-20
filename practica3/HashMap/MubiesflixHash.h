@@ -47,6 +47,7 @@ int MubiesflixHash::maxCol() {
 }
 
 int MubiesflixHash::factorCarrega() {
+    // Total de elementos / cantidad de celdas dentro de la tabla.
     return (size()/MAX_TABLE)*100;
 }
 

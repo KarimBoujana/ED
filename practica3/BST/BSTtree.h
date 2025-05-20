@@ -58,9 +58,9 @@ template <class Key, class Value>
 BSTtree<Key, Value>::BSTtree(const BSTtree<Key, Value>& orig) {
 
     if (!orig.empty()) {
+        //Llamamos función recursiva que va copiando los valores de los nodos, pero no los enlaces. 
         root = nullptr;
         copiaR(orig.root);
-        _size = orig._size; 
     }
 
 }
@@ -70,8 +70,10 @@ void BSTtree<Key, Value>::copiaR(const NODEtree<Key, Value>* n) {
 
     if (n != nullptr) {
         for (const Value& valor : n->getValues()) {
+            //Vamos insertando los valores.
             insert(n->getKey(), valor); 
         }
+        //Rercursamos en preorder.
         copiaR(n->getLeft());
         copiaR(n->getRight());
     }
@@ -132,6 +134,7 @@ template <class Key, class Value>
 NODEtree<Key,Value>* BSTtree<Key, Value>::insert(const Key& k, const Value& value) {
 
     if (empty()) {
+        //Si está vacío, lo hacemos root.
         root = new NODEtree<Key, Value>(k);
         root->insertValue(value);
         _size = 1;
@@ -139,11 +142,13 @@ NODEtree<Key,Value>* BSTtree<Key, Value>::insert(const Key& k, const Value& valu
 
     } else {
 
+        //Si no, creamos el nodo.
         NODEtree<Key, Value> * aux = root;
         NODEtree<Key, Value> * parent = root;
 
         while (aux != nullptr) {
 
+            // Bajamos iterativamente. Si lo encontramos, añadimos, si no vamos cambianod.
             parent = aux;
 
             if (aux->getKey() == k) {
@@ -156,6 +161,7 @@ NODEtree<Key,Value>* BSTtree<Key, Value>::insert(const Key& k, const Value& valu
         }
 
 
+        //Si no lo encontramos, creamos un nodo nuevo y lo enlazamos.
         NODEtree<Key, Value>* new_node = new NODEtree<Key, Value>(k);
         new_node->insertValue(value);
         new_node->setParent(parent);
@@ -231,6 +237,8 @@ void BSTtree<Key, Value>::printPostorder(const NODEtree<Key,Value>* n) const {
 template <class Key, class Value>
 void BSTtree<Key, Value>::printSecondLargestKey() const {
 
+    //Implementada recursivamente.
+    //Es bastante lógica, va a la derecha del todo. Si tiene hijo izquierdo, lo devuelve, si no, tira al padre.
     if (empty()) throw runtime_error("Arbol vacío.");
     else if (_size == 1) throw runtime_error("Solo hay un nodo.");
     else {
@@ -264,6 +272,7 @@ void BSTtree<Key, Value>::mirrorTree() {
 template <class Key, class Value>
 void BSTtree<Key, Value>::mirrorTreeR(NODEtree<Key,Value>* n) {
 
+    //Cambiamos cada enlace izqueirdo con derecho. No tiene nada de misterio.
     if(n != nullptr && !n->isExternal()) {
         NODEtree<Key,Value>* temp = n->getLeft();
         n->setLeft(n->getRight());
@@ -289,6 +298,7 @@ list<NODEtree<Key, Value>*> BSTtree<Key, Value>::getLeafNodes() const {
 template <class Key, class Value>
 void BSTtree<Key, Value>::getLeafNodesR(const NODEtree<Key,Value>* n, list<NODEtree<Key, Value>*>& lista) const {
 
+    //Inorder -> añadir externos = hojas.
     if (n != nullptr) {
         getLeafNodesR(n->getLeft(), lista);
         if (n->isExternal()) lista.push_back(const_cast<NODEtree<Key, Value>*>(n)); 

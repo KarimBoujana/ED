@@ -42,7 +42,7 @@ MubiesflixBST::MubiesflixBST(AdditionStrategy addition_strategy, string file_pat
 };
 
 MubiesflixBST::MubiesflixBST(const MubiesflixBST& orig) : BSTtree(orig), addition_strategy(orig.addition_strategy) {
-    
+    // Constructor copia heredado.
 }
 
 MubiesflixBST::~MubiesflixBST () {
@@ -102,10 +102,15 @@ void MubiesflixBST::showAllPelis() const {
         for (int i = 0 ; !stop && i < director_ids.size() && i < directors_to_show ; i++) {
             
 
+            //Tenemos tres condiciones:
+            // 1. Que nos digan parar.
+            // 2. Llegar al final del array.
+            // 3. Mostrar k películas.
             cout << endl << "Director: " << director_ids.at(i) << endl;
             cout << "===" << endl;
             showPelisByDirector(director_ids.at(i));            
 
+            // Particularmente, no preguntaremos si ya hemos acabado con todas las pelis del array.
             if (i == directors_to_show -1 && i != director_ids.size()-1) {
 
                 cout << "Vols veure les següents " << k << " directors? ";
@@ -123,6 +128,7 @@ void MubiesflixBST::showAllPelis() const {
 
 void MubiesflixBST::showAllPelisR(NODEtree<int, Peli>* n, vector<int>& directores) const {
     
+    //Este método recursivo recibe un vector de directores y lo rellena con todos los directores posibles en inorder.
     if (empty()) {cout << "Base de datos vacía."; return;}
     if (n->hasLeft()) showAllPelisR(n->getLeft(), directores);
     directores.push_back(n->getKey());
@@ -174,6 +180,7 @@ float MubiesflixBST::getAverageValoracioOfDirector(int director_id) const {
 
 int MubiesflixBST::findLargestDirectorId() const {
 
+    //Derecha del todo.
     if (empty()) return 0;
     NODEtree<int, Peli> * aux = root;
     while (aux->hasRight()) aux = aux->getRight();

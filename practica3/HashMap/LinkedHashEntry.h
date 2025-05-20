@@ -36,6 +36,7 @@ LinkedHashEntry<Key, Value>::LinkedHashEntry (Key key) {
 template <class Key, class Value>
 LinkedHashEntry<Key, Value>::~LinkedHashEntry() {
 
+    //Vamos eliminando recusrivamente. Como es una lista en una sola dirección, basta con eliminar hacia adelante.
     if (getNext() != nullptr) delete getNext();
 
 }
@@ -53,6 +54,7 @@ vector<Value>& LinkedHashEntry<Key, Value>::getValue() {
 template <class Key, class Value>
 void LinkedHashEntry<Key, Value>::setValue(const Value &value) {
 
+    // Se llama setValue pero actúa como add.
     this->values.push_back(value);
 
 }
@@ -69,6 +71,7 @@ void LinkedHashEntry<Key, Value>::setNext(LinkedHashEntry<Key, Value>* next) {
 
 template <class Key, class Value>
 void LinkedHashEntry<Key, Value>::toString() const {
+    //toString de toda la vida, vamos.
     cout << "Key: " << key << ". Value: ";
     for (int i = 0; i < values.size(); i++) {
         if (i == values.size()-1) cout << values.at(i);
