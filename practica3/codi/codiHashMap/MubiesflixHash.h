@@ -1,3 +1,5 @@
+// Nom i cognom: Karim Boujana Marcucci. Grup: F.
+
 #ifndef MUBIESFLIXHASH_H
 #define MUBIESFLIXHASH_H
 

@@ -1,3 +1,5 @@
+// Nom i cognom: Karim Boujana Marcucci. Grup: F.
+
 #ifndef NODETREE_H
 #define NODETREE_H
 #include <vector>

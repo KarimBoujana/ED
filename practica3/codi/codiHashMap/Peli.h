@@ -1,3 +1,5 @@
+// Nom i cognom: Karim Boujana Marcucci. Grup: F.
+
 #ifndef PELI_H
 #define PELI_H
 

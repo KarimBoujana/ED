@@ -1,3 +1,5 @@
+// Nom i cognom: Karim Boujana Marcucci. Grup: F.
+
 #include <vector>
 #include <iostream>
 #include <string>

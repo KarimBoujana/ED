@@ -1,3 +1,5 @@
+// Nom i cognom: Karim Boujana Marcucci. Grup: F.
+
 #ifndef HASHMAP_H
 #define HASHMAP_H
 

@@ -1,3 +1,5 @@
+
+// Nom i cognom: Karim Boujana Marcucci. Grup: F.
 #ifndef LINKEDHASHENTRY_H
 #define LINKEDHASHENTRY_H
 
