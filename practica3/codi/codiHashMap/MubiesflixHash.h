@@ -14,19 +14,25 @@
 class MubiesflixHash: public HashMap<int,Peli> {
 
     public:
-        MubiesflixHash(string file_path);
-        virtual ~MubiesflixHash() {};
-        int totalCelles();
-        int totalCol();
-        int maxCol();
-        int factorCarrega(); //percentatge d’espai ocupat al hash
-        void addPeli(int director_id, Peli peli);
-        vector<Peli> getPeliculasDirector(int director_id);
-        int searchDirectorsFromFile(string file_path) const;
+        MubiesflixHash(string file_path);// O(m) temporal, con m la cantidad de películas en el fichero, O(MAX_TABLE) espacial.
+        virtual ~MubiesflixHash() {}; //O(MAX_TABLE*ki) con ki la cantidad de directores distintos asociados a un índice i.
+        int totalCelles(); // O(1)
+        int totalCol(); // O(1)
+        int maxCol(); // O(1)
+        int factorCarrega(); //percentatge d’espai ocupat al hash // O(1)
+        void addPeli(int director_id, Peli peli); // Sea k la cantidad de directores distintos asociados a 
+                                                  // un índice particular. O(k+1)
+        vector<Peli> getPeliculasDirector(int director_id); // Sea k la cantidad de directores distintos asociados a 
+                                                            // un índice particular. O(k+1)
+        int searchDirectorsFromFile(string file_path) const; //O(j) con j la cantidad de ids en el fichero.
 
     private:
-        void loadFromFile(string file_path);
-        void _insereixPelicula(int director_id, int peli_id, string titol, int durada, float valoracio);
+        void loadFromFile(string file_path); 
+        // Sea k la cantidad de directores distintos asociados a 
+        // un índice particular y j la cantidad de películas en el fichero. O(j*(k+1))
+        void _insereixPelicula(int director_id, int peli_id, string titol, int durada, float valoracio); 
+        // Sea k la cantidad de directores distintos asociados a 
+        // un índice particular. O(k+1)
 
 };
 

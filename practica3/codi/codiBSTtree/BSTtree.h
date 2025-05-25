@@ -17,20 +17,21 @@ class BSTtree {
 
     public:
 
-        BSTtree();
-        BSTtree(const BSTtree<Key, Value>& orig);
-        virtual ~BSTtree();
-        bool empty() const;
-        int size() const;
-        int height() const;
-        NODEtree<Key, Value>* insert(const Key &k, const Value &value);
-        const vector<Value>& valuesOf(const Key& k) const;
-        void printPreorder(const NODEtree<Key,Value>* n = nullptr) const;
-        void printInorder(const NODEtree<Key,Value>* n = nullptr) const;
-        void printPostorder(const NODEtree<Key,Value>* n = nullptr) const;
-        void printSecondLargestKey() const;
-        void mirrorTree();
-        list<NODEtree<Key, Value> *> getLeafNodes() const;
+        // Consideremos n la cantidad de nodos.
+        BSTtree(); // O(1)
+        BSTtree(const BSTtree<Key, Value>& orig); // O(n).
+        virtual ~BSTtree(); // O(1)
+        bool empty() const; // O(1)
+        int size() const; // O(1)
+        int height() const; // O(n), puesto que en el peor caso el árbol degenera a una lista.
+        NODEtree<Key, Value>* insert(const Key &k, const Value &value); // O(n), puesto que en el peor caso el árbol degenera a una lista.
+        const vector<Value>& valuesOf(const Key& k) const; // O(n), puesto que en el peor caso el árbol degenera a una lista.
+        void printPreorder(const NODEtree<Key,Value>* n = nullptr) const; // O(n)
+        void printInorder(const NODEtree<Key,Value>* n = nullptr) const; // O(n)
+        void printPostorder(const NODEtree<Key,Value>* n = nullptr) const; // O(n)
+        void printSecondLargestKey() const; // O(n), puesto que en el peor caso el árbol degenera a una lista.
+        void mirrorTree();// O(n)
+        list<NODEtree<Key, Value> *> getLeafNodes() const; // O(n), puesto que en el peor caso el árbol degenera a una lista.
 
         protected:
         
@@ -41,12 +42,11 @@ class BSTtree {
         
         int _size;
         /* Mètodes auxiliars definiu aquí els que necessiteu */
-        void mirrorTreeR(NODEtree<Key, Value> *n);
-        void printSecondLargestKeyR(const NODEtree<Key, Value> *n) const;
-        void copiaR(const NODEtree<Key, Value>* n);
-        void eliminaR(NODEtree<Key, Value>* n);
-        int heightR(const NODEtree<Key, Value>* n) const;
-        void getLeafNodesR(const NODEtree<Key, Value> *n, list<NODEtree<Key, Value> *> &lista) const;
+        void mirrorTreeR(NODEtree<Key, Value> *n); // O(n), puesto que recursamos por todo el árbol.
+        void printSecondLargestKeyR(const NODEtree<Key, Value> *n) const; // O(n), puesto que en el peor caso el árbol degenera a una lista. Es el recorrido.
+        void copiaR(const NODEtree<Key, Value>* n); // O(n), puesto que recursamos por todo el árbol.
+        int heightR(const NODEtree<Key, Value>* n) const; // O(n), puesto que en el peor caso el árbol degenera a una lista.
+        void getLeafNodesR(const NODEtree<Key, Value> *n, list<NODEtree<Key, Value> *> &lista) const; // O(n), puesto que en el peor caso el árbol degenera a una lista. Es el recorrido.
 
 };
 
@@ -85,20 +85,9 @@ void BSTtree<Key, Value>::copiaR(const NODEtree<Key, Value>* n) {
 template <class Key, class Value>
 BSTtree<Key, Value>::~BSTtree() {
     
-    if (!empty()) eliminaR(root);
+    if (!empty()) delete root;
     root = nullptr;
     _size = 0;
-
-}
-
-template <class Key, class Value>
-void BSTtree<Key, Value>::eliminaR(NODEtree<Key, Value>* n) {
-
-    if (n != nullptr) {
-        eliminaR(n->getLeft());
-        eliminaR(n->getRight());
-        delete n;
-    }
 
 }
 

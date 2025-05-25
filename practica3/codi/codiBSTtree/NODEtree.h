@@ -11,37 +11,38 @@ class NODEtree {
 
     public:
 
-        NODEtree(const Key& key);
-        NODEtree(const NODEtree<Key,Value>& orig);
-        virtual ~NODEtree();
+        // Consideremos n la cantidad de nodos.
+        NODEtree(const Key& key); // O(1)
+        NODEtree(const NODEtree<Key,Value>& orig); // O(1)
+        virtual ~NODEtree(); // O(n), ya que eliminaremos todos los nodos si se llama desde la root.
 
         /* Modificadors */
-        void setKey(const Key& key);
-        void setValues(const Value &values);
-        void setParent(NODEtree* parent);
-        void setLeft(NODEtree* left);
-        void setRight(NODEtree* right);
+        void setKey(const Key& key); // O(1)
+        void setValues(const Value &values); // O(1)
+        void setParent(NODEtree* parent); // O(1)
+        void setLeft(NODEtree* left); // O(1)
+        void setRight(NODEtree* right); // O(1)
 
         /* Consultors */
-        const Key& getKey() const;
-        const vector<Value>& getValues() const;
-        NODEtree* getParent() const;
-        const NODEtree* getLeft() const;
-        const NODEtree* getRight() const;
-        NODEtree<Key, Value>* getLeft();
-        NODEtree<Key, Value>* getRight(); 
+        const Key& getKey() const; // O(1)
+        const vector<Value>& getValues() const; // O(1)
+        NODEtree* getParent() const; // O(1)
+        const NODEtree* getLeft() const; // O(1)
+        const NODEtree* getRight() const; // O(1)
+        NODEtree<Key, Value>* getLeft(); // O(1)
+        NODEtree<Key, Value>* getRight();  // O(1)
 
 
         // Declareu-hi aquí els consultors (getters) dels atributs que manquen
         /* Operacions */
-        bool isRoot() const;
-        bool hasLeft() const;
-        bool hasRight() const;
-        bool isExternal() const;
-        void insertValue(const Value& v);
-        int depth() const;
-        int height() const;
-        bool operator==(const NODEtree<Key,Value>& node) const;
+        bool isRoot() const; // O(1)
+        bool hasLeft() const; // O(1)
+        bool hasRight() const; // O(1)
+        bool isExternal() const; // O(1)
+        void insertValue(const Value& v); // O(1)
+        int depth() const; //O(n) degenera a lista.
+        int height() const; // O(1)
+        bool operator==(const NODEtree<Key,Value>& node) const; // O(1)
 
     private:
         Key key;
@@ -73,6 +74,8 @@ NODEtree<Key, Value>::NODEtree(const NODEtree<Key,Value>& orig) {
 
 template <class Key, class Value>
 NODEtree<Key, Value>::~NODEtree() {
+    delete left;
+    delete right;
 }
 
 

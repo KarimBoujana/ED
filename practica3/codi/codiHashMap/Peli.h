@@ -18,17 +18,17 @@ class Peli {
         float valoracio;
 
     public:
-        Peli(int, int, string, int, float);
-        Peli();
-        ~Peli();
-        int getPeliId();
-        int getDirectorId();
-        string getTitol();
-        int getDurada();
-        float getValoracio();
-        void print();
-        string toString() const;
-        friend std::ostream& operator<<(std::ostream& os, const Peli& obj);
+        Peli(int, int, string, int, float); // O(1)
+        Peli(); // O(1)
+        ~Peli(); // O(1)
+        int getPeliId(); // O(1)
+        int getDirectorId(); // O(1)
+        string getTitol(); // O(1)
+        int getDurada(); // O(1)
+        float getValoracio(); // O(1)
+        void print(); // O(1)
+        string toString() const; // O(1)
+        friend std::ostream& operator<<(std::ostream& os, const Peli& obj); // O(1)
         
 };
 

@@ -14,17 +14,18 @@ class HashMap {
     public:
 
         const static int MAX_TABLE = 32957; // Uso los primos : 21997, 11003, 16477, 32957 para las búsquedas con sus porcentajes. Son todos primos.
-        HashMap();
-        virtual ~HashMap();
-        int getHashCode (int key) const;
-        void put(const Key& key, const Value& value);
-        void print();
-        const bool get(const Key& key) const;
-        int size() const;
-        int cells() const;
-        int collisions() const;
-        LinkedHashEntry <Key,Value>* getPosition(const Key& element);
-        LinkedHashEntry<Key,Value>* getCell(int index) const;
+        HashMap(); // O(1) temporal, O(MAX_TABLE) espacial.
+        virtual ~HashMap(); //O(MAX_TABLE*ki) con ki la cantidad de directores distintos asociados a un índice i.
+        int getHashCode (int key) const; // O(1)
+        void put(const Key& key, const Value& value); // Sea k la cantidad de directores distintos asociados a 
+                                                      // un índice particular. O(k+1)
+        void print(); // O(MAX_TABLE)
+        const bool get(const Key& key) const; // O(1)
+        int size() const; // O(1)
+        int cells() const; // O(1)
+        int collisions() const; // O(1)
+        LinkedHashEntry <Key,Value>* getPosition(const Key& element); // O(1)
+        LinkedHashEntry<Key,Value>* getCell(int index) const; // O(1)
         
 
     private:

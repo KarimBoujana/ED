@@ -18,14 +18,15 @@ class LinkedHashEntry {
 
     public:
 
-        LinkedHashEntry(Key key);
-        ~LinkedHashEntry();
-        Key getKey();
-        vector<Value>& getValue();
-        void setValue(const Value& value);
-        LinkedHashEntry *getNext();
-        void setNext(LinkedHashEntry *next);
-        void toString() const;
+    //Sea n la cantidad de nodos enlazados uno tras otro.
+        LinkedHashEntry(Key key); // O(1)
+        ~LinkedHashEntry(); //O(n)
+        Key getKey(); // O(1)
+        vector<Value>& getValue(); // O(1)
+        void setValue(const Value& value); // O(1)
+        LinkedHashEntry *getNext(); // O(1)
+        void setNext(LinkedHashEntry *next); // O(1)
+        void toString() const; // O(1)
 
 };
 

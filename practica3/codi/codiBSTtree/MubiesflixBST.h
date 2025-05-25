@@ -10,27 +10,28 @@ using namespace std;
 class MubiesflixBST : protected BSTtree<int, Peli> {
 
     public:
+    //Sea n la cantidad de directores.
         enum AdditionStrategy { AFTER_LARGEST_ID, SMALLEST_NOTTAKEN_ID };
-        MubiesflixBST(AdditionStrategy addition_strategy);
-        MubiesflixBST (AdditionStrategy addition_strategy, string file_path);
-        MubiesflixBST (const MubiesflixBST & orig);
-        virtual ~MubiesflixBST ();
-        void loadFromFile(string file_path);
-        void showAllPelis() const;
-        void showPelisByDirector(int director_id) const;
-        float getAverageValoracioOfDirector(int director_id) const;
-        int findLargestDirectorId() const;
-        int findSmallestNotTakenDirectorId() const;
-        void addPeli();
-        void setStrategy(AdditionStrategy addition_strategy); // he tenido que crearla para alterar la estrategia según la opción 8.
-        int searchDirectorsFromFile(string file_path) const;
+        MubiesflixBST(AdditionStrategy addition_strategy); // O(1)
+        MubiesflixBST (AdditionStrategy addition_strategy, string file_path); // O(m*n), con m la cantidad de películas en el fichero.
+        MubiesflixBST (const MubiesflixBST & orig); //O(n^2), ya que haremos n inserciones de tiempo n.
+        virtual ~MubiesflixBST (); //O(n)
+        void loadFromFile(string file_path); // O(m*n), con m la cantidad de películas en el fichero.
+        void showAllPelis() const; //O(n)
+        void showPelisByDirector(int director_id) const; //O(n+k), con k la cantidad de películas asociadas a un director.
+        float getAverageValoracioOfDirector(int director_id) const; //O(n+k)
+        int findLargestDirectorId() const; //O(n)
+        int findSmallestNotTakenDirectorId() const; //O(n)
+        void addPeli(); //O(n), puesto que la inserción puede tardar como mucho n.
+        void setStrategy(AdditionStrategy addition_strategy); // he tenido que crearla para alterar la estrategia según la opción 8. // O(1)
+        int searchDirectorsFromFile(string file_path) const; //O(j*n) con j la cantidad de ids en el fichero.
 
     private:
         AdditionStrategy addition_strategy;
         /* Metodes auxiliars, definiu-los aquí sota */
         const int k = 2;
-        void showAllPelisR(NODEtree<int, Peli>* n, vector<int>& director_ids) const;
-        void findSmallestNotTakenDirectorIdR(NODEtree<int, Peli>* n, vector<int>& ids) const;
+        void showAllPelisR(NODEtree<int, Peli>* n, vector<int>& director_ids) const; //O(n)
+        void findSmallestNotTakenDirectorIdR(NODEtree<int, Peli>* n, vector<int>& ids) const; //O(n)
 
 };
 
@@ -117,6 +118,12 @@ void MubiesflixBST::showAllPelis() const {
 
                 cout << "Vols veure les següents " << k << " directors? ";
                 cin >> answer;
+                while (cin.fail() || answer != 's' || answer != 'n') {
+                    cout << "Entrada no valida." << endl;
+                    cin >> answer;
+                    cin.clear();
+                    cin.ignore(100000, '\n');
+                }
                 if (answer == 'n') stop = true;
                 else directors_to_show += k;                
 
@@ -231,13 +238,22 @@ void MubiesflixBST::addPeli() {
     int option = -1;
 
     cout << "¿Desea introducir manualmente el ID del director (0) o generarlo automáticamente (1)?: " << endl;
-    while (option < 0 || option > 1) {
+    while (cin.fail()) {
+        cout << "Entrada no valida." << endl;
         cin >> option;
+        cin.clear();
+        cin.ignore(100000, '\n');
     }
     
     if (option == 0) {
         cout << "Introduce el ID: ";
         cin >> director_id;
+        while (cin.fail()) {
+            cout << "Entrada no valida." << endl;
+            cin >> director_id;
+            cin.clear();
+            cin.ignore(100000, '\n');
+        }
     }
 
     int peliId;
@@ -248,13 +264,45 @@ void MubiesflixBST::addPeli() {
 
     cout << "Introdueix el id de la peli: ";
     cin >> peliId;
+
+    while (cin.fail()) {
+            cout << "Entrada no valida." << endl;
+            cin >> peliId;
+            cin.clear();
+            cin.ignore(100000, '\n');
+        }
+    
     cout << "Introdueix el títol de la peli: ";
     cin.ignore();
     getline(cin, titol);
+    
+    while (cin.fail()) {
+        cout << "Entrada no valida." << endl;
+        getline(cin, titol);
+        cin.clear();
+        cin.ignore(100000, '\n');
+        }
+        
     cout << "Introdueix la durada de la peli: ";
     cin >> durada;
+
+    while (cin.fail()) {
+        cout << "Entrada no valida." << endl;
+        cin >> durada;
+        cin.clear();
+        cin.ignore(100000, '\n');
+    }
+
     cout << "Introdueix la valoració de la peli: ";
     cin >> valoracio;
+
+    while (cin.fail()) {
+        cout << "Entrada no valida." << endl;
+        cin >> valoracio;
+        cin.clear();
+        cin.ignore(100000, '\n');
+    }
+
     Peli peli(peliId, director_id, titol, durada, valoracio);
 
     if (director_id >= 0) insert(director_id, peli);
